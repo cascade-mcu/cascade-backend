@@ -13,6 +13,7 @@ type Device implements Node {
   sensors(where: SensorWhereInput, orderBy: SensorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sensor!]
   workers(where: WorkerWhereInput, orderBy: WorkerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Worker!]
   groups(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Group!]
+  user(where: UserWhereInput): User
   name: String
   token: String
 }
@@ -83,6 +84,7 @@ type User implements Node {
   updatedAt: DateTime!
   email: String
   password: String
+  devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device!]
 }
 
 type Worker implements Node {
@@ -169,6 +171,7 @@ input DeviceCreateInput {
   sensors: SensorCreateManyWithoutDeviceInput
   workers: WorkerCreateManyWithoutDeviceInput
   groups: GroupCreateManyWithoutDevicesInput
+  user: UserCreateOneWithoutDevicesInput
 }
 
 input DeviceCreateManyWithoutGroupsInput {
@@ -178,6 +181,11 @@ input DeviceCreateManyWithoutGroupsInput {
 
 input DeviceCreateManyWithoutPlaceInput {
   create: [DeviceCreateWithoutPlaceInput!]
+  connect: [DeviceWhereUniqueInput!]
+}
+
+input DeviceCreateManyWithoutUserInput {
+  create: [DeviceCreateWithoutUserInput!]
   connect: [DeviceWhereUniqueInput!]
 }
 
@@ -197,6 +205,7 @@ input DeviceCreateWithoutGroupsInput {
   place: PlaceCreateOneWithoutDevicesInput
   sensors: SensorCreateManyWithoutDeviceInput
   workers: WorkerCreateManyWithoutDeviceInput
+  user: UserCreateOneWithoutDevicesInput
 }
 
 input DeviceCreateWithoutPlaceInput {
@@ -205,12 +214,23 @@ input DeviceCreateWithoutPlaceInput {
   sensors: SensorCreateManyWithoutDeviceInput
   workers: WorkerCreateManyWithoutDeviceInput
   groups: GroupCreateManyWithoutDevicesInput
+  user: UserCreateOneWithoutDevicesInput
 }
 
 input DeviceCreateWithoutSensorsInput {
   name: String
   token: String
   place: PlaceCreateOneWithoutDevicesInput
+  workers: WorkerCreateManyWithoutDeviceInput
+  groups: GroupCreateManyWithoutDevicesInput
+  user: UserCreateOneWithoutDevicesInput
+}
+
+input DeviceCreateWithoutUserInput {
+  name: String
+  token: String
+  place: PlaceCreateOneWithoutDevicesInput
+  sensors: SensorCreateManyWithoutDeviceInput
   workers: WorkerCreateManyWithoutDeviceInput
   groups: GroupCreateManyWithoutDevicesInput
 }
@@ -221,6 +241,7 @@ input DeviceCreateWithoutWorkersInput {
   place: PlaceCreateOneWithoutDevicesInput
   sensors: SensorCreateManyWithoutDeviceInput
   groups: GroupCreateManyWithoutDevicesInput
+  user: UserCreateOneWithoutDevicesInput
 }
 
 """
@@ -300,6 +321,7 @@ input DeviceUpdateInput {
   sensors: SensorUpdateManyWithoutDeviceInput
   workers: WorkerUpdateManyWithoutDeviceInput
   groups: GroupUpdateManyWithoutDevicesInput
+  user: UserUpdateOneWithoutDevicesInput
 }
 
 input DeviceUpdateManyWithoutGroupsInput {
@@ -318,6 +340,15 @@ input DeviceUpdateManyWithoutPlaceInput {
   delete: [DeviceWhereUniqueInput!]
   update: [DeviceUpdateWithWhereUniqueWithoutPlaceInput!]
   upsert: [DeviceUpsertWithWhereUniqueWithoutPlaceInput!]
+}
+
+input DeviceUpdateManyWithoutUserInput {
+  create: [DeviceCreateWithoutUserInput!]
+  connect: [DeviceWhereUniqueInput!]
+  disconnect: [DeviceWhereUniqueInput!]
+  delete: [DeviceWhereUniqueInput!]
+  update: [DeviceUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [DeviceUpsertWithWhereUniqueWithoutUserInput!]
 }
 
 input DeviceUpdateOneWithoutSensorsInput {
@@ -344,6 +375,7 @@ input DeviceUpdateWithoutGroupsDataInput {
   place: PlaceUpdateOneWithoutDevicesInput
   sensors: SensorUpdateManyWithoutDeviceInput
   workers: WorkerUpdateManyWithoutDeviceInput
+  user: UserUpdateOneWithoutDevicesInput
 }
 
 input DeviceUpdateWithoutPlaceDataInput {
@@ -352,12 +384,23 @@ input DeviceUpdateWithoutPlaceDataInput {
   sensors: SensorUpdateManyWithoutDeviceInput
   workers: WorkerUpdateManyWithoutDeviceInput
   groups: GroupUpdateManyWithoutDevicesInput
+  user: UserUpdateOneWithoutDevicesInput
 }
 
 input DeviceUpdateWithoutSensorsDataInput {
   name: String
   token: String
   place: PlaceUpdateOneWithoutDevicesInput
+  workers: WorkerUpdateManyWithoutDeviceInput
+  groups: GroupUpdateManyWithoutDevicesInput
+  user: UserUpdateOneWithoutDevicesInput
+}
+
+input DeviceUpdateWithoutUserDataInput {
+  name: String
+  token: String
+  place: PlaceUpdateOneWithoutDevicesInput
+  sensors: SensorUpdateManyWithoutDeviceInput
   workers: WorkerUpdateManyWithoutDeviceInput
   groups: GroupUpdateManyWithoutDevicesInput
 }
@@ -368,6 +411,7 @@ input DeviceUpdateWithoutWorkersDataInput {
   place: PlaceUpdateOneWithoutDevicesInput
   sensors: SensorUpdateManyWithoutDeviceInput
   groups: GroupUpdateManyWithoutDevicesInput
+  user: UserUpdateOneWithoutDevicesInput
 }
 
 input DeviceUpdateWithWhereUniqueWithoutGroupsInput {
@@ -378,6 +422,11 @@ input DeviceUpdateWithWhereUniqueWithoutGroupsInput {
 input DeviceUpdateWithWhereUniqueWithoutPlaceInput {
   where: DeviceWhereUniqueInput!
   data: DeviceUpdateWithoutPlaceDataInput!
+}
+
+input DeviceUpdateWithWhereUniqueWithoutUserInput {
+  where: DeviceWhereUniqueInput!
+  data: DeviceUpdateWithoutUserDataInput!
 }
 
 input DeviceUpsertWithoutSensorsInput {
@@ -400,6 +449,12 @@ input DeviceUpsertWithWhereUniqueWithoutPlaceInput {
   where: DeviceWhereUniqueInput!
   update: DeviceUpdateWithoutPlaceDataInput!
   create: DeviceCreateWithoutPlaceInput!
+}
+
+input DeviceUpsertWithWhereUniqueWithoutUserInput {
+  where: DeviceWhereUniqueInput!
+  update: DeviceUpdateWithoutUserDataInput!
+  create: DeviceCreateWithoutUserInput!
 }
 
 input DeviceWhereInput {
@@ -638,6 +693,7 @@ input DeviceWhereInput {
   groups_every: GroupWhereInput
   groups_some: GroupWhereInput
   groups_none: GroupWhereInput
+  user: UserWhereInput
 }
 
 input DeviceWhereUniqueInput {
@@ -3139,6 +3195,17 @@ type UserConnection {
 input UserCreateInput {
   email: String
   password: String
+  devices: DeviceCreateManyWithoutUserInput
+}
+
+input UserCreateOneWithoutDevicesInput {
+  create: UserCreateWithoutDevicesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutDevicesInput {
+  email: String
+  password: String
 }
 
 """
@@ -3214,6 +3281,26 @@ input UserSubscriptionWhereInput {
 input UserUpdateInput {
   email: String
   password: String
+  devices: DeviceUpdateManyWithoutUserInput
+}
+
+input UserUpdateOneWithoutDevicesInput {
+  create: UserCreateWithoutDevicesInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutDevicesDataInput
+  upsert: UserUpsertWithoutDevicesInput
+}
+
+input UserUpdateWithoutDevicesDataInput {
+  email: String
+  password: String
+}
+
+input UserUpsertWithoutDevicesInput {
+  update: UserUpdateWithoutDevicesDataInput!
+  create: UserCreateWithoutDevicesInput!
 }
 
 input UserWhereInput {
@@ -3442,6 +3529,9 @@ input UserWhereInput {
   All values not ending with the given string.
   """
   password_not_ends_with: String
+  devices_every: DeviceWhereInput
+  devices_some: DeviceWhereInput
+  devices_none: DeviceWhereInput
 }
 
 input UserWhereUniqueInput {
