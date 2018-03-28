@@ -7,6 +7,14 @@ const resolvers = {
   Query: {
     me,
     users: forwardTo('db'),
+    devices: forwardTo('db'),
+    groups: forwardTo('db'),
+    sensors: forwardTo('db'),
+    workers: forwardTo('db'),
+    logs: forwardTo('db'),
+    scenes: forwardTo('db'),
+    places: forwardTo('db'),
+    locations: forwardTo('db'),
   },
   Mutation: {
     signup,
