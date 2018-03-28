@@ -2,6 +2,9 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { Context, getUserId, APP_SECRET } = require('./utils')
 
+const InvalidPasswordError = require('./errors/InvalidPasswordError');
+const InvalidEmailError = require('./errors/InvalidEmailError');
+
 // resolve the `AuthPayload` type
 const AuthPayload = {
   user: async ({ user: { id } }, args, ctx, info) => {
@@ -32,12 +35,12 @@ async function signup(parent, args, ctx, info) {
 async function login(parent, { email, password }, ctx, info) {
   const user = await ctx.db.query.user({ where: { email } })
   if (!user) {
-    throw new Error(`No user found for email: ${email}`)
+    throw new InvalidEmailError();
   }
 
   const valid = await bcrypt.compare(password, user.password)
   if (!valid) {
-    throw new Error('Invalid password')
+    throw new InvalidPasswordError();
   }
 
   return {

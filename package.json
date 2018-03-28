@@ -7,6 +7,7 @@
     "prisma": "prisma"
   },
   "dependencies": {
+    "apollo-errors": "1.5.1",
     "bcryptjs": "2.4.3",
     "graphql-import": "0.4.1",
     "graphql-yoga": "1.2.0",

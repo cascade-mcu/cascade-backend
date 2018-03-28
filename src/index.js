@@ -1,6 +1,7 @@
 const { GraphQLServer } = require('graphql-yoga')
 const { importSchema } = require('graphql-import')
 const { Prisma, forwardTo } = require('prisma-binding')
+const { formatError } = require('apollo-errors');
 const { me, signup, login, AuthPayload } = require('./auth')
 const weather = require('./weather');
 
@@ -48,4 +49,4 @@ const server = new GraphQLServer({
   }),
 })
 
-server.start(() => console.log(`Server is running on http://localhost:4000`))
+server.start({ formatError }, () => console.log(`Server is running on http://localhost:4000`))

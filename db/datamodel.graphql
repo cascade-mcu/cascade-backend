@@ -13,8 +13,8 @@ type User {
   createdAt: DateTime!
   id: ID! @unique
   updatedAt: DateTime!
-  email: String! @unique
-  password: String!
+  email: String @unique
+  password: String
 }
 
 type Device {
