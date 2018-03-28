@@ -1,0 +1,85 @@
+type File {
+  contentType: String!
+  createdAt: DateTime!
+  id: ID! @unique
+  name: String!
+  secret: String! @isUnique
+  size: Int!
+  updatedAt: DateTime!
+  url: String! @isUnique
+}
+
+type User {
+  createdAt: DateTime!
+  id: ID! @unique
+  updatedAt: DateTime!
+}
+
+type Device {
+  createdAt: DateTime!
+  id: ID! @unique
+  updatedAt: DateTime!
+  place: Place @relation(name: "PlaceDevices")
+  sensors: [Sensor!]! @relation(name: "DeviceSensors")
+  workers: [Worker!]! @relation(name: "DeviceWorkers")
+  groups: [Group!]! @relation(name: "DeviceGroups")
+  name: String
+  token: String
+}
+
+type Group {
+  createdAt: DateTime!
+  name: String
+  devices: [Device!]! @relation(name: "DeviceGroups")
+  id: ID! @unique
+  updatedAt: DateTime!
+}
+
+type Sensor {
+  createdAt: DateTime!
+  name: String
+  device: Device @relation(name: "DeviceSensors")
+  logs: [Log!]! @relation(name: "SensorLogs")
+  id: ID! @unique
+  updatedAt: DateTime!
+}
+
+type Worker {
+  createdAt: DateTime!
+  name: String
+  device: Device @relation(name: "DeviceWorkers")
+  id: ID! @unique
+  updatedAt: DateTime!
+}
+
+type Log {
+  createdAt: DateTime!
+  sensor: Sensor @relation(name: "SensorLogs")
+  id: ID! @unique
+  updatedAt: DateTime!
+  value: Float!
+}
+
+type Scene {
+  name: String
+  id: ID! @unique
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type Place {
+  name: String
+  id: ID! @unique
+  location: Location @relation(name: "LocationPlaces")
+  devices: [Device!]! @relation(name: "PlaceDevices")
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type Location {
+  name: String
+  id: ID! @unique
+  places: [Place!]! @relation(name: "LocationPlaces")
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
