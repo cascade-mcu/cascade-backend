@@ -2,6 +2,7 @@ const { GraphQLServer } = require('graphql-yoga')
 const { importSchema } = require('graphql-import')
 const { Prisma, forwardTo } = require('prisma-binding')
 const { me, signup, login, AuthPayload } = require('./auth')
+const weather = require('./weather');
 
 const resolvers = {
   Query: {
@@ -24,6 +25,7 @@ const resolvers = {
     place: forwardTo('db'),
     locations: forwardTo('db'),
     location: forwardTo('db'),
+    weather,
   },
   Mutation: {
     signup,
