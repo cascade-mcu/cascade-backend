@@ -1,9 +1,9 @@
-service: cascade
+service: backend
 stage: dev
 
 datamodel: datamodel.graphql
 
 # to enable auth, provide
-# secret: my-secret
+# secret: cascade-secret
 disableAuth: true
-cluster: domas-bitvinskas/prisma-eu1
+cluster: cascade/prisma-eu1
