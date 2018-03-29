@@ -28,4 +28,11 @@ mutation {
   }) {
     id
   }
+
+  sonnoff: createDeviceModel(data: {
+    name: "Sonnoff",
+    available: false,
+  }) {
+    id
+  }
 }
