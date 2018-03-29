@@ -16,6 +16,16 @@ type Device implements Node {
   user(where: UserWhereInput): User
   name: String
   token: String
+  deviceModel(where: DeviceModelWhereInput): DeviceModel
+}
+
+type DeviceModel implements Node {
+  createdAt: DateTime!
+  name: String
+  id: ID!
+  updatedAt: DateTime!
+  devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device!]
+  sensorTypes(where: SensorTypeWhereInput, orderBy: SensorTypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SensorType!]
 }
 
 type File implements Node {
@@ -71,11 +81,20 @@ type Scene implements Node {
 
 type Sensor implements Node {
   createdAt: DateTime!
-  name: String
   device(where: DeviceWhereInput): Device
   logs(where: LogWhereInput, orderBy: LogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Log!]
   id: ID!
   updatedAt: DateTime!
+  sensorType(where: SensorTypeWhereInput): SensorType
+}
+
+type SensorType implements Node {
+  createdAt: DateTime!
+  name: String
+  id: ID!
+  updatedAt: DateTime!
+  sensors(where: SensorWhereInput, orderBy: SensorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sensor!]
+  deviceModels(where: DeviceModelWhereInput, orderBy: DeviceModelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DeviceModel!]
 }
 
 type User implements Node {
@@ -104,6 +123,10 @@ type AggregateDevice {
   count: Int!
 }
 
+type AggregateDeviceModel {
+  count: Int!
+}
+
 type AggregateFile {
   count: Int!
 }
@@ -129,6 +152,10 @@ type AggregateScene {
 }
 
 type AggregateSensor {
+  count: Int!
+}
+
+type AggregateSensorType {
   count: Int!
 }
 
@@ -172,6 +199,12 @@ input DeviceCreateInput {
   workers: WorkerCreateManyWithoutDeviceInput
   groups: GroupCreateManyWithoutDevicesInput
   user: UserCreateOneWithoutDevicesInput
+  deviceModel: DeviceModelCreateOneWithoutDevicesInput
+}
+
+input DeviceCreateManyWithoutDeviceModelInput {
+  create: [DeviceCreateWithoutDeviceModelInput!]
+  connect: [DeviceWhereUniqueInput!]
 }
 
 input DeviceCreateManyWithoutGroupsInput {
@@ -199,6 +232,16 @@ input DeviceCreateOneWithoutWorkersInput {
   connect: DeviceWhereUniqueInput
 }
 
+input DeviceCreateWithoutDeviceModelInput {
+  name: String
+  token: String
+  place: PlaceCreateOneWithoutDevicesInput
+  sensors: SensorCreateManyWithoutDeviceInput
+  workers: WorkerCreateManyWithoutDeviceInput
+  groups: GroupCreateManyWithoutDevicesInput
+  user: UserCreateOneWithoutDevicesInput
+}
+
 input DeviceCreateWithoutGroupsInput {
   name: String
   token: String
@@ -206,6 +249,7 @@ input DeviceCreateWithoutGroupsInput {
   sensors: SensorCreateManyWithoutDeviceInput
   workers: WorkerCreateManyWithoutDeviceInput
   user: UserCreateOneWithoutDevicesInput
+  deviceModel: DeviceModelCreateOneWithoutDevicesInput
 }
 
 input DeviceCreateWithoutPlaceInput {
@@ -215,6 +259,7 @@ input DeviceCreateWithoutPlaceInput {
   workers: WorkerCreateManyWithoutDeviceInput
   groups: GroupCreateManyWithoutDevicesInput
   user: UserCreateOneWithoutDevicesInput
+  deviceModel: DeviceModelCreateOneWithoutDevicesInput
 }
 
 input DeviceCreateWithoutSensorsInput {
@@ -224,6 +269,7 @@ input DeviceCreateWithoutSensorsInput {
   workers: WorkerCreateManyWithoutDeviceInput
   groups: GroupCreateManyWithoutDevicesInput
   user: UserCreateOneWithoutDevicesInput
+  deviceModel: DeviceModelCreateOneWithoutDevicesInput
 }
 
 input DeviceCreateWithoutUserInput {
@@ -233,6 +279,7 @@ input DeviceCreateWithoutUserInput {
   sensors: SensorCreateManyWithoutDeviceInput
   workers: WorkerCreateManyWithoutDeviceInput
   groups: GroupCreateManyWithoutDevicesInput
+  deviceModel: DeviceModelCreateOneWithoutDevicesInput
 }
 
 input DeviceCreateWithoutWorkersInput {
@@ -242,6 +289,7 @@ input DeviceCreateWithoutWorkersInput {
   sensors: SensorCreateManyWithoutDeviceInput
   groups: GroupCreateManyWithoutDevicesInput
   user: UserCreateOneWithoutDevicesInput
+  deviceModel: DeviceModelCreateOneWithoutDevicesInput
 }
 
 """
@@ -256,6 +304,349 @@ type DeviceEdge {
   A cursor for use in pagination.
   """
   cursor: String!
+}
+
+"""
+A connection to a list of items.
+"""
+type DeviceModelConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  """
+  A list of edges.
+  """
+  edges: [DeviceModelEdge]!
+  aggregate: AggregateDeviceModel!
+}
+
+input DeviceModelCreateInput {
+  name: String
+  devices: DeviceCreateManyWithoutDeviceModelInput
+  sensorTypes: SensorTypeCreateManyWithoutDeviceModelsInput
+}
+
+input DeviceModelCreateManyWithoutSensorTypesInput {
+  create: [DeviceModelCreateWithoutSensorTypesInput!]
+  connect: [DeviceModelWhereUniqueInput!]
+}
+
+input DeviceModelCreateOneWithoutDevicesInput {
+  create: DeviceModelCreateWithoutDevicesInput
+  connect: DeviceModelWhereUniqueInput
+}
+
+input DeviceModelCreateWithoutDevicesInput {
+  name: String
+  sensorTypes: SensorTypeCreateManyWithoutDeviceModelsInput
+}
+
+input DeviceModelCreateWithoutSensorTypesInput {
+  name: String
+  devices: DeviceCreateManyWithoutDeviceModelInput
+}
+
+"""
+An edge in a connection.
+"""
+type DeviceModelEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: DeviceModel!
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+enum DeviceModelOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  name_ASC
+  name_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type DeviceModelPreviousValues {
+  createdAt: DateTime!
+  name: String
+  id: ID!
+  updatedAt: DateTime!
+}
+
+type DeviceModelSubscriptionPayload {
+  mutation: MutationType!
+  node: DeviceModel
+  updatedFields: [String!]
+  previousValues: DeviceModelPreviousValues
+}
+
+input DeviceModelSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [DeviceModelSubscriptionWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [DeviceModelSubscriptionWhereInput!]
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: DeviceModelWhereInput
+}
+
+input DeviceModelUpdateInput {
+  name: String
+  devices: DeviceUpdateManyWithoutDeviceModelInput
+  sensorTypes: SensorTypeUpdateManyWithoutDeviceModelsInput
+}
+
+input DeviceModelUpdateManyWithoutSensorTypesInput {
+  create: [DeviceModelCreateWithoutSensorTypesInput!]
+  connect: [DeviceModelWhereUniqueInput!]
+  disconnect: [DeviceModelWhereUniqueInput!]
+  delete: [DeviceModelWhereUniqueInput!]
+  update: [DeviceModelUpdateWithWhereUniqueWithoutSensorTypesInput!]
+  upsert: [DeviceModelUpsertWithWhereUniqueWithoutSensorTypesInput!]
+}
+
+input DeviceModelUpdateOneWithoutDevicesInput {
+  create: DeviceModelCreateWithoutDevicesInput
+  connect: DeviceModelWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: DeviceModelUpdateWithoutDevicesDataInput
+  upsert: DeviceModelUpsertWithoutDevicesInput
+}
+
+input DeviceModelUpdateWithoutDevicesDataInput {
+  name: String
+  sensorTypes: SensorTypeUpdateManyWithoutDeviceModelsInput
+}
+
+input DeviceModelUpdateWithoutSensorTypesDataInput {
+  name: String
+  devices: DeviceUpdateManyWithoutDeviceModelInput
+}
+
+input DeviceModelUpdateWithWhereUniqueWithoutSensorTypesInput {
+  where: DeviceModelWhereUniqueInput!
+  data: DeviceModelUpdateWithoutSensorTypesDataInput!
+}
+
+input DeviceModelUpsertWithoutDevicesInput {
+  update: DeviceModelUpdateWithoutDevicesDataInput!
+  create: DeviceModelCreateWithoutDevicesInput!
+}
+
+input DeviceModelUpsertWithWhereUniqueWithoutSensorTypesInput {
+  where: DeviceModelWhereUniqueInput!
+  update: DeviceModelUpdateWithoutSensorTypesDataInput!
+  create: DeviceModelCreateWithoutSensorTypesInput!
+}
+
+input DeviceModelWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [DeviceModelWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [DeviceModelWhereInput!]
+  createdAt: DateTime
+  """
+  All values that are not equal to given value.
+  """
+  createdAt_not: DateTime
+  """
+  All values that are contained in given list.
+  """
+  createdAt_in: [DateTime!]
+  """
+  All values that are not contained in given list.
+  """
+  createdAt_not_in: [DateTime!]
+  """
+  All values less than the given value.
+  """
+  createdAt_lt: DateTime
+  """
+  All values less than or equal the given value.
+  """
+  createdAt_lte: DateTime
+  """
+  All values greater than the given value.
+  """
+  createdAt_gt: DateTime
+  """
+  All values greater than or equal the given value.
+  """
+  createdAt_gte: DateTime
+  name: String
+  """
+  All values that are not equal to given value.
+  """
+  name_not: String
+  """
+  All values that are contained in given list.
+  """
+  name_in: [String!]
+  """
+  All values that are not contained in given list.
+  """
+  name_not_in: [String!]
+  """
+  All values less than the given value.
+  """
+  name_lt: String
+  """
+  All values less than or equal the given value.
+  """
+  name_lte: String
+  """
+  All values greater than the given value.
+  """
+  name_gt: String
+  """
+  All values greater than or equal the given value.
+  """
+  name_gte: String
+  """
+  All values containing the given string.
+  """
+  name_contains: String
+  """
+  All values not containing the given string.
+  """
+  name_not_contains: String
+  """
+  All values starting with the given string.
+  """
+  name_starts_with: String
+  """
+  All values not starting with the given string.
+  """
+  name_not_starts_with: String
+  """
+  All values ending with the given string.
+  """
+  name_ends_with: String
+  """
+  All values not ending with the given string.
+  """
+  name_not_ends_with: String
+  id: ID
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  updatedAt: DateTime
+  """
+  All values that are not equal to given value.
+  """
+  updatedAt_not: DateTime
+  """
+  All values that are contained in given list.
+  """
+  updatedAt_in: [DateTime!]
+  """
+  All values that are not contained in given list.
+  """
+  updatedAt_not_in: [DateTime!]
+  """
+  All values less than the given value.
+  """
+  updatedAt_lt: DateTime
+  """
+  All values less than or equal the given value.
+  """
+  updatedAt_lte: DateTime
+  """
+  All values greater than the given value.
+  """
+  updatedAt_gt: DateTime
+  """
+  All values greater than or equal the given value.
+  """
+  updatedAt_gte: DateTime
+  devices_every: DeviceWhereInput
+  devices_some: DeviceWhereInput
+  devices_none: DeviceWhereInput
+  sensorTypes_every: SensorTypeWhereInput
+  sensorTypes_some: SensorTypeWhereInput
+  sensorTypes_none: SensorTypeWhereInput
+}
+
+input DeviceModelWhereUniqueInput {
+  id: ID
 }
 
 enum DeviceOrderByInput {
@@ -322,6 +713,16 @@ input DeviceUpdateInput {
   workers: WorkerUpdateManyWithoutDeviceInput
   groups: GroupUpdateManyWithoutDevicesInput
   user: UserUpdateOneWithoutDevicesInput
+  deviceModel: DeviceModelUpdateOneWithoutDevicesInput
+}
+
+input DeviceUpdateManyWithoutDeviceModelInput {
+  create: [DeviceCreateWithoutDeviceModelInput!]
+  connect: [DeviceWhereUniqueInput!]
+  disconnect: [DeviceWhereUniqueInput!]
+  delete: [DeviceWhereUniqueInput!]
+  update: [DeviceUpdateWithWhereUniqueWithoutDeviceModelInput!]
+  upsert: [DeviceUpsertWithWhereUniqueWithoutDeviceModelInput!]
 }
 
 input DeviceUpdateManyWithoutGroupsInput {
@@ -369,6 +770,16 @@ input DeviceUpdateOneWithoutWorkersInput {
   upsert: DeviceUpsertWithoutWorkersInput
 }
 
+input DeviceUpdateWithoutDeviceModelDataInput {
+  name: String
+  token: String
+  place: PlaceUpdateOneWithoutDevicesInput
+  sensors: SensorUpdateManyWithoutDeviceInput
+  workers: WorkerUpdateManyWithoutDeviceInput
+  groups: GroupUpdateManyWithoutDevicesInput
+  user: UserUpdateOneWithoutDevicesInput
+}
+
 input DeviceUpdateWithoutGroupsDataInput {
   name: String
   token: String
@@ -376,6 +787,7 @@ input DeviceUpdateWithoutGroupsDataInput {
   sensors: SensorUpdateManyWithoutDeviceInput
   workers: WorkerUpdateManyWithoutDeviceInput
   user: UserUpdateOneWithoutDevicesInput
+  deviceModel: DeviceModelUpdateOneWithoutDevicesInput
 }
 
 input DeviceUpdateWithoutPlaceDataInput {
@@ -385,6 +797,7 @@ input DeviceUpdateWithoutPlaceDataInput {
   workers: WorkerUpdateManyWithoutDeviceInput
   groups: GroupUpdateManyWithoutDevicesInput
   user: UserUpdateOneWithoutDevicesInput
+  deviceModel: DeviceModelUpdateOneWithoutDevicesInput
 }
 
 input DeviceUpdateWithoutSensorsDataInput {
@@ -394,6 +807,7 @@ input DeviceUpdateWithoutSensorsDataInput {
   workers: WorkerUpdateManyWithoutDeviceInput
   groups: GroupUpdateManyWithoutDevicesInput
   user: UserUpdateOneWithoutDevicesInput
+  deviceModel: DeviceModelUpdateOneWithoutDevicesInput
 }
 
 input DeviceUpdateWithoutUserDataInput {
@@ -403,6 +817,7 @@ input DeviceUpdateWithoutUserDataInput {
   sensors: SensorUpdateManyWithoutDeviceInput
   workers: WorkerUpdateManyWithoutDeviceInput
   groups: GroupUpdateManyWithoutDevicesInput
+  deviceModel: DeviceModelUpdateOneWithoutDevicesInput
 }
 
 input DeviceUpdateWithoutWorkersDataInput {
@@ -412,6 +827,12 @@ input DeviceUpdateWithoutWorkersDataInput {
   sensors: SensorUpdateManyWithoutDeviceInput
   groups: GroupUpdateManyWithoutDevicesInput
   user: UserUpdateOneWithoutDevicesInput
+  deviceModel: DeviceModelUpdateOneWithoutDevicesInput
+}
+
+input DeviceUpdateWithWhereUniqueWithoutDeviceModelInput {
+  where: DeviceWhereUniqueInput!
+  data: DeviceUpdateWithoutDeviceModelDataInput!
 }
 
 input DeviceUpdateWithWhereUniqueWithoutGroupsInput {
@@ -437,6 +858,12 @@ input DeviceUpsertWithoutSensorsInput {
 input DeviceUpsertWithoutWorkersInput {
   update: DeviceUpdateWithoutWorkersDataInput!
   create: DeviceCreateWithoutWorkersInput!
+}
+
+input DeviceUpsertWithWhereUniqueWithoutDeviceModelInput {
+  where: DeviceWhereUniqueInput!
+  update: DeviceUpdateWithoutDeviceModelDataInput!
+  create: DeviceCreateWithoutDeviceModelInput!
 }
 
 input DeviceUpsertWithWhereUniqueWithoutGroupsInput {
@@ -694,6 +1121,7 @@ input DeviceWhereInput {
   groups_some: GroupWhereInput
   groups_none: GroupWhereInput
   user: UserWhereInput
+  deviceModel: DeviceModelWhereInput
 }
 
 input DeviceWhereUniqueInput {
@@ -2076,6 +2504,8 @@ type Mutation {
   createFile(data: FileCreateInput!): File!
   createUser(data: UserCreateInput!): User!
   createDevice(data: DeviceCreateInput!): Device!
+  createDeviceModel(data: DeviceModelCreateInput!): DeviceModel!
+  createSensorType(data: SensorTypeCreateInput!): SensorType!
   createGroup(data: GroupCreateInput!): Group!
   createSensor(data: SensorCreateInput!): Sensor!
   createWorker(data: WorkerCreateInput!): Worker!
@@ -2086,6 +2516,8 @@ type Mutation {
   updateFile(data: FileUpdateInput!, where: FileWhereUniqueInput!): File
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateDevice(data: DeviceUpdateInput!, where: DeviceWhereUniqueInput!): Device
+  updateDeviceModel(data: DeviceModelUpdateInput!, where: DeviceModelWhereUniqueInput!): DeviceModel
+  updateSensorType(data: SensorTypeUpdateInput!, where: SensorTypeWhereUniqueInput!): SensorType
   updateGroup(data: GroupUpdateInput!, where: GroupWhereUniqueInput!): Group
   updateSensor(data: SensorUpdateInput!, where: SensorWhereUniqueInput!): Sensor
   updateWorker(data: WorkerUpdateInput!, where: WorkerWhereUniqueInput!): Worker
@@ -2096,6 +2528,8 @@ type Mutation {
   deleteFile(where: FileWhereUniqueInput!): File
   deleteUser(where: UserWhereUniqueInput!): User
   deleteDevice(where: DeviceWhereUniqueInput!): Device
+  deleteDeviceModel(where: DeviceModelWhereUniqueInput!): DeviceModel
+  deleteSensorType(where: SensorTypeWhereUniqueInput!): SensorType
   deleteGroup(where: GroupWhereUniqueInput!): Group
   deleteSensor(where: SensorWhereUniqueInput!): Sensor
   deleteWorker(where: WorkerWhereUniqueInput!): Worker
@@ -2106,6 +2540,8 @@ type Mutation {
   upsertFile(where: FileWhereUniqueInput!, create: FileCreateInput!, update: FileUpdateInput!): File!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertDevice(where: DeviceWhereUniqueInput!, create: DeviceCreateInput!, update: DeviceUpdateInput!): Device!
+  upsertDeviceModel(where: DeviceModelWhereUniqueInput!, create: DeviceModelCreateInput!, update: DeviceModelUpdateInput!): DeviceModel!
+  upsertSensorType(where: SensorTypeWhereUniqueInput!, create: SensorTypeCreateInput!, update: SensorTypeUpdateInput!): SensorType!
   upsertGroup(where: GroupWhereUniqueInput!, create: GroupCreateInput!, update: GroupUpdateInput!): Group!
   upsertSensor(where: SensorWhereUniqueInput!, create: SensorCreateInput!, update: SensorUpdateInput!): Sensor!
   upsertWorker(where: WorkerWhereUniqueInput!, create: WorkerCreateInput!, update: WorkerUpdateInput!): Worker!
@@ -2116,6 +2552,8 @@ type Mutation {
   updateManyFiles(data: FileUpdateInput!, where: FileWhereInput!): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput!): BatchPayload!
   updateManyDevices(data: DeviceUpdateInput!, where: DeviceWhereInput!): BatchPayload!
+  updateManyDeviceModels(data: DeviceModelUpdateInput!, where: DeviceModelWhereInput!): BatchPayload!
+  updateManySensorTypes(data: SensorTypeUpdateInput!, where: SensorTypeWhereInput!): BatchPayload!
   updateManyGroups(data: GroupUpdateInput!, where: GroupWhereInput!): BatchPayload!
   updateManySensors(data: SensorUpdateInput!, where: SensorWhereInput!): BatchPayload!
   updateManyWorkers(data: WorkerUpdateInput!, where: WorkerWhereInput!): BatchPayload!
@@ -2126,6 +2564,8 @@ type Mutation {
   deleteManyFiles(where: FileWhereInput!): BatchPayload!
   deleteManyUsers(where: UserWhereInput!): BatchPayload!
   deleteManyDevices(where: DeviceWhereInput!): BatchPayload!
+  deleteManyDeviceModels(where: DeviceModelWhereInput!): BatchPayload!
+  deleteManySensorTypes(where: SensorTypeWhereInput!): BatchPayload!
   deleteManyGroups(where: GroupWhereInput!): BatchPayload!
   deleteManySensors(where: SensorWhereInput!): BatchPayload!
   deleteManyWorkers(where: WorkerWhereInput!): BatchPayload!
@@ -2518,6 +2958,8 @@ type Query {
   files(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [File]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device]!
+  deviceModels(where: DeviceModelWhereInput, orderBy: DeviceModelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DeviceModel]!
+  sensorTypes(where: SensorTypeWhereInput, orderBy: SensorTypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SensorType]!
   groups(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Group]!
   sensors(where: SensorWhereInput, orderBy: SensorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sensor]!
   workers(where: WorkerWhereInput, orderBy: WorkerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Worker]!
@@ -2528,6 +2970,8 @@ type Query {
   file(where: FileWhereUniqueInput!): File
   user(where: UserWhereUniqueInput!): User
   device(where: DeviceWhereUniqueInput!): Device
+  deviceModel(where: DeviceModelWhereUniqueInput!): DeviceModel
+  sensorType(where: SensorTypeWhereUniqueInput!): SensorType
   group(where: GroupWhereUniqueInput!): Group
   sensor(where: SensorWhereUniqueInput!): Sensor
   worker(where: WorkerWhereUniqueInput!): Worker
@@ -2538,6 +2982,8 @@ type Query {
   filesConnection(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   devicesConnection(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DeviceConnection!
+  deviceModelsConnection(where: DeviceModelWhereInput, orderBy: DeviceModelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DeviceModelConnection!
+  sensorTypesConnection(where: SensorTypeWhereInput, orderBy: SensorTypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SensorTypeConnection!
   groupsConnection(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GroupConnection!
   sensorsConnection(where: SensorWhereInput, orderBy: SensorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SensorConnection!
   workersConnection(where: WorkerWhereInput, orderBy: WorkerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): WorkerConnection!
@@ -2839,13 +3285,18 @@ type SensorConnection {
 }
 
 input SensorCreateInput {
-  name: String
   device: DeviceCreateOneWithoutSensorsInput
   logs: LogCreateManyWithoutSensorInput
+  sensorType: SensorTypeCreateOneWithoutSensorsInput
 }
 
 input SensorCreateManyWithoutDeviceInput {
   create: [SensorCreateWithoutDeviceInput!]
+  connect: [SensorWhereUniqueInput!]
+}
+
+input SensorCreateManyWithoutSensorTypeInput {
+  create: [SensorCreateWithoutSensorTypeInput!]
   connect: [SensorWhereUniqueInput!]
 }
 
@@ -2855,13 +3306,18 @@ input SensorCreateOneWithoutLogsInput {
 }
 
 input SensorCreateWithoutDeviceInput {
-  name: String
   logs: LogCreateManyWithoutSensorInput
+  sensorType: SensorTypeCreateOneWithoutSensorsInput
 }
 
 input SensorCreateWithoutLogsInput {
-  name: String
   device: DeviceCreateOneWithoutSensorsInput
+  sensorType: SensorTypeCreateOneWithoutSensorsInput
+}
+
+input SensorCreateWithoutSensorTypeInput {
+  device: DeviceCreateOneWithoutSensorsInput
+  logs: LogCreateManyWithoutSensorInput
 }
 
 """
@@ -2881,8 +3337,6 @@ type SensorEdge {
 enum SensorOrderByInput {
   createdAt_ASC
   createdAt_DESC
-  name_ASC
-  name_DESC
   id_ASC
   id_DESC
   updatedAt_ASC
@@ -2891,7 +3345,6 @@ enum SensorOrderByInput {
 
 type SensorPreviousValues {
   createdAt: DateTime!
-  name: String
   id: ID!
   updatedAt: DateTime!
 }
@@ -2931,65 +3384,173 @@ input SensorSubscriptionWhereInput {
   node: SensorWhereInput
 }
 
-input SensorUpdateInput {
+"""
+A connection to a list of items.
+"""
+type SensorTypeConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+  """
+  A list of edges.
+  """
+  edges: [SensorTypeEdge]!
+  aggregate: AggregateSensorType!
+}
+
+input SensorTypeCreateInput {
   name: String
-  device: DeviceUpdateOneWithoutSensorsInput
-  logs: LogUpdateManyWithoutSensorInput
+  sensors: SensorCreateManyWithoutSensorTypeInput
+  deviceModels: DeviceModelCreateManyWithoutSensorTypesInput
 }
 
-input SensorUpdateManyWithoutDeviceInput {
-  create: [SensorCreateWithoutDeviceInput!]
-  connect: [SensorWhereUniqueInput!]
-  disconnect: [SensorWhereUniqueInput!]
-  delete: [SensorWhereUniqueInput!]
-  update: [SensorUpdateWithWhereUniqueWithoutDeviceInput!]
-  upsert: [SensorUpsertWithWhereUniqueWithoutDeviceInput!]
+input SensorTypeCreateManyWithoutDeviceModelsInput {
+  create: [SensorTypeCreateWithoutDeviceModelsInput!]
+  connect: [SensorTypeWhereUniqueInput!]
 }
 
-input SensorUpdateOneWithoutLogsInput {
-  create: SensorCreateWithoutLogsInput
-  connect: SensorWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
-  update: SensorUpdateWithoutLogsDataInput
-  upsert: SensorUpsertWithoutLogsInput
+input SensorTypeCreateOneWithoutSensorsInput {
+  create: SensorTypeCreateWithoutSensorsInput
+  connect: SensorTypeWhereUniqueInput
 }
 
-input SensorUpdateWithoutDeviceDataInput {
+input SensorTypeCreateWithoutDeviceModelsInput {
   name: String
-  logs: LogUpdateManyWithoutSensorInput
+  sensors: SensorCreateManyWithoutSensorTypeInput
 }
 
-input SensorUpdateWithoutLogsDataInput {
+input SensorTypeCreateWithoutSensorsInput {
   name: String
-  device: DeviceUpdateOneWithoutSensorsInput
+  deviceModels: DeviceModelCreateManyWithoutSensorTypesInput
 }
 
-input SensorUpdateWithWhereUniqueWithoutDeviceInput {
-  where: SensorWhereUniqueInput!
-  data: SensorUpdateWithoutDeviceDataInput!
+"""
+An edge in a connection.
+"""
+type SensorTypeEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: SensorType!
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
 }
 
-input SensorUpsertWithoutLogsInput {
-  update: SensorUpdateWithoutLogsDataInput!
-  create: SensorCreateWithoutLogsInput!
+enum SensorTypeOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  name_ASC
+  name_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
-input SensorUpsertWithWhereUniqueWithoutDeviceInput {
-  where: SensorWhereUniqueInput!
-  update: SensorUpdateWithoutDeviceDataInput!
-  create: SensorCreateWithoutDeviceInput!
+type SensorTypePreviousValues {
+  createdAt: DateTime!
+  name: String
+  id: ID!
+  updatedAt: DateTime!
 }
 
-input SensorWhereInput {
+type SensorTypeSubscriptionPayload {
+  mutation: MutationType!
+  node: SensorType
+  updatedFields: [String!]
+  previousValues: SensorTypePreviousValues
+}
+
+input SensorTypeSubscriptionWhereInput {
   """
   Logical AND on all given filters.
   """
-  AND: [SensorWhereInput!]
+  AND: [SensorTypeSubscriptionWhereInput!]
   """
   Logical OR on all given filters.
   """
-  OR: [SensorWhereInput!]
+  OR: [SensorTypeSubscriptionWhereInput!]
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: SensorTypeWhereInput
+}
+
+input SensorTypeUpdateInput {
+  name: String
+  sensors: SensorUpdateManyWithoutSensorTypeInput
+  deviceModels: DeviceModelUpdateManyWithoutSensorTypesInput
+}
+
+input SensorTypeUpdateManyWithoutDeviceModelsInput {
+  create: [SensorTypeCreateWithoutDeviceModelsInput!]
+  connect: [SensorTypeWhereUniqueInput!]
+  disconnect: [SensorTypeWhereUniqueInput!]
+  delete: [SensorTypeWhereUniqueInput!]
+  update: [SensorTypeUpdateWithWhereUniqueWithoutDeviceModelsInput!]
+  upsert: [SensorTypeUpsertWithWhereUniqueWithoutDeviceModelsInput!]
+}
+
+input SensorTypeUpdateOneWithoutSensorsInput {
+  create: SensorTypeCreateWithoutSensorsInput
+  connect: SensorTypeWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: SensorTypeUpdateWithoutSensorsDataInput
+  upsert: SensorTypeUpsertWithoutSensorsInput
+}
+
+input SensorTypeUpdateWithoutDeviceModelsDataInput {
+  name: String
+  sensors: SensorUpdateManyWithoutSensorTypeInput
+}
+
+input SensorTypeUpdateWithoutSensorsDataInput {
+  name: String
+  deviceModels: DeviceModelUpdateManyWithoutSensorTypesInput
+}
+
+input SensorTypeUpdateWithWhereUniqueWithoutDeviceModelsInput {
+  where: SensorTypeWhereUniqueInput!
+  data: SensorTypeUpdateWithoutDeviceModelsDataInput!
+}
+
+input SensorTypeUpsertWithoutSensorsInput {
+  update: SensorTypeUpdateWithoutSensorsDataInput!
+  create: SensorTypeCreateWithoutSensorsInput!
+}
+
+input SensorTypeUpsertWithWhereUniqueWithoutDeviceModelsInput {
+  where: SensorTypeWhereUniqueInput!
+  update: SensorTypeUpdateWithoutDeviceModelsDataInput!
+  create: SensorTypeCreateWithoutDeviceModelsInput!
+}
+
+input SensorTypeWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [SensorTypeWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [SensorTypeWhereInput!]
   createdAt: DateTime
   """
   All values that are not equal to given value.
@@ -3154,10 +3715,218 @@ input SensorWhereInput {
   All values greater than or equal the given value.
   """
   updatedAt_gte: DateTime
+  sensors_every: SensorWhereInput
+  sensors_some: SensorWhereInput
+  sensors_none: SensorWhereInput
+  deviceModels_every: DeviceModelWhereInput
+  deviceModels_some: DeviceModelWhereInput
+  deviceModels_none: DeviceModelWhereInput
+}
+
+input SensorTypeWhereUniqueInput {
+  id: ID
+}
+
+input SensorUpdateInput {
+  device: DeviceUpdateOneWithoutSensorsInput
+  logs: LogUpdateManyWithoutSensorInput
+  sensorType: SensorTypeUpdateOneWithoutSensorsInput
+}
+
+input SensorUpdateManyWithoutDeviceInput {
+  create: [SensorCreateWithoutDeviceInput!]
+  connect: [SensorWhereUniqueInput!]
+  disconnect: [SensorWhereUniqueInput!]
+  delete: [SensorWhereUniqueInput!]
+  update: [SensorUpdateWithWhereUniqueWithoutDeviceInput!]
+  upsert: [SensorUpsertWithWhereUniqueWithoutDeviceInput!]
+}
+
+input SensorUpdateManyWithoutSensorTypeInput {
+  create: [SensorCreateWithoutSensorTypeInput!]
+  connect: [SensorWhereUniqueInput!]
+  disconnect: [SensorWhereUniqueInput!]
+  delete: [SensorWhereUniqueInput!]
+  update: [SensorUpdateWithWhereUniqueWithoutSensorTypeInput!]
+  upsert: [SensorUpsertWithWhereUniqueWithoutSensorTypeInput!]
+}
+
+input SensorUpdateOneWithoutLogsInput {
+  create: SensorCreateWithoutLogsInput
+  connect: SensorWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: SensorUpdateWithoutLogsDataInput
+  upsert: SensorUpsertWithoutLogsInput
+}
+
+input SensorUpdateWithoutDeviceDataInput {
+  logs: LogUpdateManyWithoutSensorInput
+  sensorType: SensorTypeUpdateOneWithoutSensorsInput
+}
+
+input SensorUpdateWithoutLogsDataInput {
+  device: DeviceUpdateOneWithoutSensorsInput
+  sensorType: SensorTypeUpdateOneWithoutSensorsInput
+}
+
+input SensorUpdateWithoutSensorTypeDataInput {
+  device: DeviceUpdateOneWithoutSensorsInput
+  logs: LogUpdateManyWithoutSensorInput
+}
+
+input SensorUpdateWithWhereUniqueWithoutDeviceInput {
+  where: SensorWhereUniqueInput!
+  data: SensorUpdateWithoutDeviceDataInput!
+}
+
+input SensorUpdateWithWhereUniqueWithoutSensorTypeInput {
+  where: SensorWhereUniqueInput!
+  data: SensorUpdateWithoutSensorTypeDataInput!
+}
+
+input SensorUpsertWithoutLogsInput {
+  update: SensorUpdateWithoutLogsDataInput!
+  create: SensorCreateWithoutLogsInput!
+}
+
+input SensorUpsertWithWhereUniqueWithoutDeviceInput {
+  where: SensorWhereUniqueInput!
+  update: SensorUpdateWithoutDeviceDataInput!
+  create: SensorCreateWithoutDeviceInput!
+}
+
+input SensorUpsertWithWhereUniqueWithoutSensorTypeInput {
+  where: SensorWhereUniqueInput!
+  update: SensorUpdateWithoutSensorTypeDataInput!
+  create: SensorCreateWithoutSensorTypeInput!
+}
+
+input SensorWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [SensorWhereInput!]
+  """
+  Logical OR on all given filters.
+  """
+  OR: [SensorWhereInput!]
+  createdAt: DateTime
+  """
+  All values that are not equal to given value.
+  """
+  createdAt_not: DateTime
+  """
+  All values that are contained in given list.
+  """
+  createdAt_in: [DateTime!]
+  """
+  All values that are not contained in given list.
+  """
+  createdAt_not_in: [DateTime!]
+  """
+  All values less than the given value.
+  """
+  createdAt_lt: DateTime
+  """
+  All values less than or equal the given value.
+  """
+  createdAt_lte: DateTime
+  """
+  All values greater than the given value.
+  """
+  createdAt_gt: DateTime
+  """
+  All values greater than or equal the given value.
+  """
+  createdAt_gte: DateTime
+  id: ID
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  updatedAt: DateTime
+  """
+  All values that are not equal to given value.
+  """
+  updatedAt_not: DateTime
+  """
+  All values that are contained in given list.
+  """
+  updatedAt_in: [DateTime!]
+  """
+  All values that are not contained in given list.
+  """
+  updatedAt_not_in: [DateTime!]
+  """
+  All values less than the given value.
+  """
+  updatedAt_lt: DateTime
+  """
+  All values less than or equal the given value.
+  """
+  updatedAt_lte: DateTime
+  """
+  All values greater than the given value.
+  """
+  updatedAt_gt: DateTime
+  """
+  All values greater than or equal the given value.
+  """
+  updatedAt_gte: DateTime
   device: DeviceWhereInput
   logs_every: LogWhereInput
   logs_some: LogWhereInput
   logs_none: LogWhereInput
+  sensorType: SensorTypeWhereInput
 }
 
 input SensorWhereUniqueInput {
@@ -3168,6 +3937,8 @@ type Subscription {
   file(where: FileSubscriptionWhereInput): FileSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   device(where: DeviceSubscriptionWhereInput): DeviceSubscriptionPayload
+  deviceModel(where: DeviceModelSubscriptionWhereInput): DeviceModelSubscriptionPayload
+  sensorType(where: SensorTypeSubscriptionWhereInput): SensorTypeSubscriptionPayload
   group(where: GroupSubscriptionWhereInput): GroupSubscriptionPayload
   sensor(where: SensorSubscriptionWhereInput): SensorSubscriptionPayload
   worker(where: WorkerSubscriptionWhereInput): WorkerSubscriptionPayload

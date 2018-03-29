@@ -2,6 +2,8 @@ service: backend
 stage: dev
 
 datamodel: datamodel.graphql
+seed:
+  import: seed.graphql
 
 # to enable auth, provide
 # secret: cascade-secret

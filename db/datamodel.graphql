@@ -29,6 +29,25 @@ type Device {
   user: User @relation(name: "UserDevices")
   name: String
   token: String
+  deviceModel: DeviceModel @relation(name: "DeviceModelDevices")
+}
+
+type DeviceModel {
+  createdAt: DateTime!
+  name: String
+  id: ID! @unique
+  updatedAt: DateTime!
+  devices: [Device!]! @relation(name: "DeviceModelDevices")
+  sensorTypes: [SensorType!]! @relation(name: "DeviceModelSensorTypes")
+}
+
+type SensorType {
+  createdAt: DateTime!
+  name: String
+  id: ID! @unique
+  updatedAt: DateTime!
+  sensors: [Sensor!]! @relation(name: "SensorSensorType")
+  deviceModels: [DeviceModel!]! @relation(name: "DeviceModelSensorTypes")
 }
 
 type Group {
@@ -41,11 +60,11 @@ type Group {
 
 type Sensor {
   createdAt: DateTime!
-  name: String
   device: Device @relation(name: "DeviceSensors")
   logs: [Log!]! @relation(name: "SensorLogs")
   id: ID! @unique
   updatedAt: DateTime!
+  sensorType: SensorType @relation(name: "SensorSensorType")
 }
 
 type Worker {
