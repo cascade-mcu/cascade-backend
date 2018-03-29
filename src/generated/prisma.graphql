@@ -26,6 +26,7 @@ type DeviceModel implements Node {
   updatedAt: DateTime!
   devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device!]
   sensorTypes(where: SensorTypeWhereInput, orderBy: SensorTypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SensorType!]
+  available: Boolean!
 }
 
 type File implements Node {
@@ -323,6 +324,7 @@ type DeviceModelConnection {
 
 input DeviceModelCreateInput {
   name: String
+  available: Boolean
   devices: DeviceCreateManyWithoutDeviceModelInput
   sensorTypes: SensorTypeCreateManyWithoutDeviceModelsInput
 }
@@ -339,11 +341,13 @@ input DeviceModelCreateOneWithoutDevicesInput {
 
 input DeviceModelCreateWithoutDevicesInput {
   name: String
+  available: Boolean
   sensorTypes: SensorTypeCreateManyWithoutDeviceModelsInput
 }
 
 input DeviceModelCreateWithoutSensorTypesInput {
   name: String
+  available: Boolean
   devices: DeviceCreateManyWithoutDeviceModelInput
 }
 
@@ -370,6 +374,8 @@ enum DeviceModelOrderByInput {
   id_DESC
   updatedAt_ASC
   updatedAt_DESC
+  available_ASC
+  available_DESC
 }
 
 type DeviceModelPreviousValues {
@@ -377,6 +383,7 @@ type DeviceModelPreviousValues {
   name: String
   id: ID!
   updatedAt: DateTime!
+  available: Boolean!
 }
 
 type DeviceModelSubscriptionPayload {
@@ -416,6 +423,7 @@ input DeviceModelSubscriptionWhereInput {
 
 input DeviceModelUpdateInput {
   name: String
+  available: Boolean
   devices: DeviceUpdateManyWithoutDeviceModelInput
   sensorTypes: SensorTypeUpdateManyWithoutDeviceModelsInput
 }
@@ -440,11 +448,13 @@ input DeviceModelUpdateOneWithoutDevicesInput {
 
 input DeviceModelUpdateWithoutDevicesDataInput {
   name: String
+  available: Boolean
   sensorTypes: SensorTypeUpdateManyWithoutDeviceModelsInput
 }
 
 input DeviceModelUpdateWithoutSensorTypesDataInput {
   name: String
+  available: Boolean
   devices: DeviceUpdateManyWithoutDeviceModelInput
 }
 
@@ -637,6 +647,11 @@ input DeviceModelWhereInput {
   All values greater than or equal the given value.
   """
   updatedAt_gte: DateTime
+  available: Boolean
+  """
+  All values that are not equal to given value.
+  """
+  available_not: Boolean
   devices_every: DeviceWhereInput
   devices_some: DeviceWhereInput
   devices_none: DeviceWhereInput

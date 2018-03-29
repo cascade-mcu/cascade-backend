@@ -39,6 +39,7 @@ type DeviceModel {
   updatedAt: DateTime!
   devices: [Device!]! @relation(name: "DeviceModelDevices")
   sensorTypes: [SensorType!]! @relation(name: "DeviceModelSensorTypes")
+  available: Boolean! @default(value: true)
 }
 
 type SensorType {
