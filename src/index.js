@@ -35,6 +35,7 @@ const resolvers = {
   Mutation: {
     signup,
     login,
+    updateDevice: forwardTo('db'),
   },
   AuthPayload
 }

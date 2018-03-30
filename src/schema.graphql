@@ -8,6 +8,7 @@ type Query {
 type Mutation {
   signup(email: String!, password: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
+  updateDevice(data: DeviceUpdateInput!, where: DeviceWhereInput!): Device!
 }
 
 type AuthPayload {
