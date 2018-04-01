@@ -57,6 +57,7 @@ type Location implements Node {
 }
 
 type Log implements Node {
+  readingTime: DateTime
   createdAt: DateTime!
   sensor(where: SensorWhereInput): Sensor
   id: ID!
@@ -2246,6 +2247,7 @@ type LogConnection {
 }
 
 input LogCreateInput {
+  readingTime: DateTime
   value: Float!
   sensor: SensorCreateOneWithoutLogsInput
 }
@@ -2256,6 +2258,7 @@ input LogCreateManyWithoutSensorInput {
 }
 
 input LogCreateWithoutSensorInput {
+  readingTime: DateTime
   value: Float!
 }
 
@@ -2274,6 +2277,8 @@ type LogEdge {
 }
 
 enum LogOrderByInput {
+  readingTime_ASC
+  readingTime_DESC
   createdAt_ASC
   createdAt_DESC
   id_ASC
@@ -2285,6 +2290,7 @@ enum LogOrderByInput {
 }
 
 type LogPreviousValues {
+  readingTime: DateTime
   createdAt: DateTime!
   id: ID!
   updatedAt: DateTime!
@@ -2327,6 +2333,7 @@ input LogSubscriptionWhereInput {
 }
 
 input LogUpdateInput {
+  readingTime: DateTime
   value: Float
   sensor: SensorUpdateOneWithoutLogsInput
 }
@@ -2341,6 +2348,7 @@ input LogUpdateManyWithoutSensorInput {
 }
 
 input LogUpdateWithoutSensorDataInput {
+  readingTime: DateTime
   value: Float
 }
 
@@ -2364,6 +2372,35 @@ input LogWhereInput {
   Logical OR on all given filters.
   """
   OR: [LogWhereInput!]
+  readingTime: DateTime
+  """
+  All values that are not equal to given value.
+  """
+  readingTime_not: DateTime
+  """
+  All values that are contained in given list.
+  """
+  readingTime_in: [DateTime!]
+  """
+  All values that are not contained in given list.
+  """
+  readingTime_not_in: [DateTime!]
+  """
+  All values less than the given value.
+  """
+  readingTime_lt: DateTime
+  """
+  All values less than or equal the given value.
+  """
+  readingTime_lte: DateTime
+  """
+  All values greater than the given value.
+  """
+  readingTime_gt: DateTime
+  """
+  All values greater than or equal the given value.
+  """
+  readingTime_gte: DateTime
   createdAt: DateTime
   """
   All values that are not equal to given value.

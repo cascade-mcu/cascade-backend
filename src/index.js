@@ -36,6 +36,7 @@ const resolvers = {
     signup,
     login,
     updateDevice: forwardTo('db'),
+    createLog: forwardTo('db'),
   },
   AuthPayload
 }
