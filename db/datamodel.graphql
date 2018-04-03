@@ -100,8 +100,8 @@ type Place {
   name: String
   id: ID! @unique
   location: Location @relation(name: "LocationPlaces")
-  devices: [Device!]! @relation(name: "PlaceDevices")
   locationDefault: Location @relation(name: "LocationDefaultPlace")
+  devices: [Device!]! @relation(name: "PlaceDevices")
   updatedAt: DateTime!
   createdAt: DateTime!
 }

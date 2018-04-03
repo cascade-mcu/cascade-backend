@@ -33,6 +33,11 @@ async function signup(parent, args, ctx, info) {
           id: user.id,
         },
       },
+      userDefault: {
+        connect: {
+          id: user.id,
+        },
+      },
     },
   });
 
@@ -40,6 +45,11 @@ async function signup(parent, args, ctx, info) {
     data: {
       name: 'My Room',
       location: {
+        connect: {
+          id: defaultLocation.id,
+        },
+      },
+      locationDefault: {
         connect: {
           id: defaultLocation.id,
         },
