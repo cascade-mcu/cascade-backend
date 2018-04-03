@@ -19,6 +19,7 @@ type User {
   password: String
   devices: [Device!]! @relation(name: "UserDevices")
   locations: [Location!]! @relation(name: "UserLocations")
+  defaultLocation: Location @relation(name: "UserDefaultLocation")
 }
 
 type Device {
@@ -100,17 +101,18 @@ type Place {
   id: ID! @unique
   location: Location @relation(name: "LocationPlaces")
   devices: [Device!]! @relation(name: "PlaceDevices")
+  locationDefault: Location @relation(name: "LocationDefaultPlace")
   updatedAt: DateTime!
   createdAt: DateTime!
-  isDefault: Boolean! @default(value: false)
 }
 
 type Location {
   name: String
   id: ID! @unique
   places: [Place!]! @relation(name: "LocationPlaces")
+  defaultPlace: Place @relation(name: "LocationDefaultPlace")
   updatedAt: DateTime!
   createdAt: DateTime!
   user: User @relation(name: "UserLocations")
-  isDefault: Boolean! @default(value: false)
+  userDefault: User @relation(name: "UserDefaultLocation")
 }

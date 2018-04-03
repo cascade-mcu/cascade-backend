@@ -52,10 +52,11 @@ type Location implements Node {
   name: String
   id: ID!
   places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place!]
+  defaultPlace(where: PlaceWhereInput): Place
   updatedAt: DateTime!
   createdAt: DateTime!
   user(where: UserWhereInput): User
-  isDefault: Boolean!
+  userDefault(where: UserWhereInput): User
 }
 
 type Log implements Node {
@@ -72,9 +73,9 @@ type Place implements Node {
   id: ID!
   location(where: LocationWhereInput): Location
   devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device!]
+  locationDefault(where: LocationWhereInput): Location
   updatedAt: DateTime!
   createdAt: DateTime!
-  isDefault: Boolean!
 }
 
 type Scene implements Node {
@@ -112,6 +113,7 @@ type User implements Node {
   password: String
   devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device!]
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
+  defaultLocation(where: LocationWhereInput): Location
 }
 
 type Worker implements Node {
@@ -1951,9 +1953,10 @@ type LocationConnection {
 
 input LocationCreateInput {
   name: String
-  isDefault: Boolean
   places: PlaceCreateManyWithoutLocationInput
+  defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
   user: UserCreateOneWithoutLocationsInput
+  userDefault: UserCreateOneWithoutDefaultLocationInput
 }
 
 input LocationCreateManyWithoutUserInput {
@@ -1961,21 +1964,47 @@ input LocationCreateManyWithoutUserInput {
   connect: [LocationWhereUniqueInput!]
 }
 
+input LocationCreateOneWithoutDefaultPlaceInput {
+  create: LocationCreateWithoutDefaultPlaceInput
+  connect: LocationWhereUniqueInput
+}
+
 input LocationCreateOneWithoutPlacesInput {
   create: LocationCreateWithoutPlacesInput
   connect: LocationWhereUniqueInput
 }
 
+input LocationCreateOneWithoutUserDefaultInput {
+  create: LocationCreateWithoutUserDefaultInput
+  connect: LocationWhereUniqueInput
+}
+
+input LocationCreateWithoutDefaultPlaceInput {
+  name: String
+  places: PlaceCreateManyWithoutLocationInput
+  user: UserCreateOneWithoutLocationsInput
+  userDefault: UserCreateOneWithoutDefaultLocationInput
+}
+
 input LocationCreateWithoutPlacesInput {
   name: String
-  isDefault: Boolean
+  defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
+  user: UserCreateOneWithoutLocationsInput
+  userDefault: UserCreateOneWithoutDefaultLocationInput
+}
+
+input LocationCreateWithoutUserDefaultInput {
+  name: String
+  places: PlaceCreateManyWithoutLocationInput
+  defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
   user: UserCreateOneWithoutLocationsInput
 }
 
 input LocationCreateWithoutUserInput {
   name: String
-  isDefault: Boolean
   places: PlaceCreateManyWithoutLocationInput
+  defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
+  userDefault: UserCreateOneWithoutDefaultLocationInput
 }
 
 """
@@ -2001,8 +2030,6 @@ enum LocationOrderByInput {
   updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
-  isDefault_ASC
-  isDefault_DESC
 }
 
 type LocationPreviousValues {
@@ -2010,7 +2037,6 @@ type LocationPreviousValues {
   id: ID!
   updatedAt: DateTime!
   createdAt: DateTime!
-  isDefault: Boolean!
 }
 
 type LocationSubscriptionPayload {
@@ -2050,9 +2076,10 @@ input LocationSubscriptionWhereInput {
 
 input LocationUpdateInput {
   name: String
-  isDefault: Boolean
   places: PlaceUpdateManyWithoutLocationInput
+  defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
   user: UserUpdateOneWithoutLocationsInput
+  userDefault: UserUpdateOneWithoutDefaultLocationInput
 }
 
 input LocationUpdateManyWithoutUserInput {
@@ -2064,6 +2091,15 @@ input LocationUpdateManyWithoutUserInput {
   upsert: [LocationUpsertWithWhereUniqueWithoutUserInput!]
 }
 
+input LocationUpdateOneWithoutDefaultPlaceInput {
+  create: LocationCreateWithoutDefaultPlaceInput
+  connect: LocationWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: LocationUpdateWithoutDefaultPlaceDataInput
+  upsert: LocationUpsertWithoutDefaultPlaceInput
+}
+
 input LocationUpdateOneWithoutPlacesInput {
   create: LocationCreateWithoutPlacesInput
   connect: LocationWhereUniqueInput
@@ -2073,16 +2109,41 @@ input LocationUpdateOneWithoutPlacesInput {
   upsert: LocationUpsertWithoutPlacesInput
 }
 
+input LocationUpdateOneWithoutUserDefaultInput {
+  create: LocationCreateWithoutUserDefaultInput
+  connect: LocationWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: LocationUpdateWithoutUserDefaultDataInput
+  upsert: LocationUpsertWithoutUserDefaultInput
+}
+
+input LocationUpdateWithoutDefaultPlaceDataInput {
+  name: String
+  places: PlaceUpdateManyWithoutLocationInput
+  user: UserUpdateOneWithoutLocationsInput
+  userDefault: UserUpdateOneWithoutDefaultLocationInput
+}
+
 input LocationUpdateWithoutPlacesDataInput {
   name: String
-  isDefault: Boolean
+  defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
   user: UserUpdateOneWithoutLocationsInput
+  userDefault: UserUpdateOneWithoutDefaultLocationInput
 }
 
 input LocationUpdateWithoutUserDataInput {
   name: String
-  isDefault: Boolean
   places: PlaceUpdateManyWithoutLocationInput
+  defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
+  userDefault: UserUpdateOneWithoutDefaultLocationInput
+}
+
+input LocationUpdateWithoutUserDefaultDataInput {
+  name: String
+  places: PlaceUpdateManyWithoutLocationInput
+  defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
+  user: UserUpdateOneWithoutLocationsInput
 }
 
 input LocationUpdateWithWhereUniqueWithoutUserInput {
@@ -2090,9 +2151,19 @@ input LocationUpdateWithWhereUniqueWithoutUserInput {
   data: LocationUpdateWithoutUserDataInput!
 }
 
+input LocationUpsertWithoutDefaultPlaceInput {
+  update: LocationUpdateWithoutDefaultPlaceDataInput!
+  create: LocationCreateWithoutDefaultPlaceInput!
+}
+
 input LocationUpsertWithoutPlacesInput {
   update: LocationUpdateWithoutPlacesDataInput!
   create: LocationCreateWithoutPlacesInput!
+}
+
+input LocationUpsertWithoutUserDefaultInput {
+  update: LocationUpdateWithoutUserDefaultDataInput!
+  create: LocationCreateWithoutUserDefaultInput!
 }
 
 input LocationUpsertWithWhereUniqueWithoutUserInput {
@@ -2274,15 +2345,12 @@ input LocationWhereInput {
   All values greater than or equal the given value.
   """
   createdAt_gte: DateTime
-  isDefault: Boolean
-  """
-  All values that are not equal to given value.
-  """
-  isDefault_not: Boolean
   places_every: PlaceWhereInput
   places_some: PlaceWhereInput
   places_none: PlaceWhereInput
+  defaultPlace: PlaceWhereInput
   user: UserWhereInput
+  userDefault: UserWhereInput
 }
 
 input LocationWhereUniqueInput {
@@ -2742,9 +2810,9 @@ type PlaceConnection {
 
 input PlaceCreateInput {
   name: String
-  isDefault: Boolean
   location: LocationCreateOneWithoutPlacesInput
   devices: DeviceCreateManyWithoutPlaceInput
+  locationDefault: LocationCreateOneWithoutDefaultPlaceInput
 }
 
 input PlaceCreateManyWithoutLocationInput {
@@ -2757,16 +2825,27 @@ input PlaceCreateOneWithoutDevicesInput {
   connect: PlaceWhereUniqueInput
 }
 
+input PlaceCreateOneWithoutLocationDefaultInput {
+  create: PlaceCreateWithoutLocationDefaultInput
+  connect: PlaceWhereUniqueInput
+}
+
 input PlaceCreateWithoutDevicesInput {
   name: String
-  isDefault: Boolean
   location: LocationCreateOneWithoutPlacesInput
+  locationDefault: LocationCreateOneWithoutDefaultPlaceInput
+}
+
+input PlaceCreateWithoutLocationDefaultInput {
+  name: String
+  location: LocationCreateOneWithoutPlacesInput
+  devices: DeviceCreateManyWithoutPlaceInput
 }
 
 input PlaceCreateWithoutLocationInput {
   name: String
-  isDefault: Boolean
   devices: DeviceCreateManyWithoutPlaceInput
+  locationDefault: LocationCreateOneWithoutDefaultPlaceInput
 }
 
 """
@@ -2792,8 +2871,6 @@ enum PlaceOrderByInput {
   updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
-  isDefault_ASC
-  isDefault_DESC
 }
 
 type PlacePreviousValues {
@@ -2801,7 +2878,6 @@ type PlacePreviousValues {
   id: ID!
   updatedAt: DateTime!
   createdAt: DateTime!
-  isDefault: Boolean!
 }
 
 type PlaceSubscriptionPayload {
@@ -2841,9 +2917,9 @@ input PlaceSubscriptionWhereInput {
 
 input PlaceUpdateInput {
   name: String
-  isDefault: Boolean
   location: LocationUpdateOneWithoutPlacesInput
   devices: DeviceUpdateManyWithoutPlaceInput
+  locationDefault: LocationUpdateOneWithoutDefaultPlaceInput
 }
 
 input PlaceUpdateManyWithoutLocationInput {
@@ -2864,15 +2940,30 @@ input PlaceUpdateOneWithoutDevicesInput {
   upsert: PlaceUpsertWithoutDevicesInput
 }
 
+input PlaceUpdateOneWithoutLocationDefaultInput {
+  create: PlaceCreateWithoutLocationDefaultInput
+  connect: PlaceWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: PlaceUpdateWithoutLocationDefaultDataInput
+  upsert: PlaceUpsertWithoutLocationDefaultInput
+}
+
 input PlaceUpdateWithoutDevicesDataInput {
   name: String
-  isDefault: Boolean
   location: LocationUpdateOneWithoutPlacesInput
+  locationDefault: LocationUpdateOneWithoutDefaultPlaceInput
 }
 
 input PlaceUpdateWithoutLocationDataInput {
   name: String
-  isDefault: Boolean
+  devices: DeviceUpdateManyWithoutPlaceInput
+  locationDefault: LocationUpdateOneWithoutDefaultPlaceInput
+}
+
+input PlaceUpdateWithoutLocationDefaultDataInput {
+  name: String
+  location: LocationUpdateOneWithoutPlacesInput
   devices: DeviceUpdateManyWithoutPlaceInput
 }
 
@@ -2884,6 +2975,11 @@ input PlaceUpdateWithWhereUniqueWithoutLocationInput {
 input PlaceUpsertWithoutDevicesInput {
   update: PlaceUpdateWithoutDevicesDataInput!
   create: PlaceCreateWithoutDevicesInput!
+}
+
+input PlaceUpsertWithoutLocationDefaultInput {
+  update: PlaceUpdateWithoutLocationDefaultDataInput!
+  create: PlaceCreateWithoutLocationDefaultInput!
 }
 
 input PlaceUpsertWithWhereUniqueWithoutLocationInput {
@@ -3065,15 +3161,11 @@ input PlaceWhereInput {
   All values greater than or equal the given value.
   """
   createdAt_gte: DateTime
-  isDefault: Boolean
-  """
-  All values that are not equal to given value.
-  """
-  isDefault_not: Boolean
   location: LocationWhereInput
   devices_every: DeviceWhereInput
   devices_some: DeviceWhereInput
   devices_none: DeviceWhereInput
+  locationDefault: LocationWhereInput
 }
 
 input PlaceWhereUniqueInput {
@@ -4096,6 +4188,12 @@ input UserCreateInput {
   password: String
   devices: DeviceCreateManyWithoutUserInput
   locations: LocationCreateManyWithoutUserInput
+  defaultLocation: LocationCreateOneWithoutUserDefaultInput
+}
+
+input UserCreateOneWithoutDefaultLocationInput {
+  create: UserCreateWithoutDefaultLocationInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutDevicesInput {
@@ -4108,12 +4206,22 @@ input UserCreateOneWithoutLocationsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateWithoutDefaultLocationInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  devices: DeviceCreateManyWithoutUserInput
+  locations: LocationCreateManyWithoutUserInput
+}
+
 input UserCreateWithoutDevicesInput {
   firstName: String
   lastName: String
   email: String
   password: String
   locations: LocationCreateManyWithoutUserInput
+  defaultLocation: LocationCreateOneWithoutUserDefaultInput
 }
 
 input UserCreateWithoutLocationsInput {
@@ -4122,6 +4230,7 @@ input UserCreateWithoutLocationsInput {
   email: String
   password: String
   devices: DeviceCreateManyWithoutUserInput
+  defaultLocation: LocationCreateOneWithoutUserDefaultInput
 }
 
 """
@@ -4207,6 +4316,16 @@ input UserUpdateInput {
   password: String
   devices: DeviceUpdateManyWithoutUserInput
   locations: LocationUpdateManyWithoutUserInput
+  defaultLocation: LocationUpdateOneWithoutUserDefaultInput
+}
+
+input UserUpdateOneWithoutDefaultLocationInput {
+  create: UserCreateWithoutDefaultLocationInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutDefaultLocationDataInput
+  upsert: UserUpsertWithoutDefaultLocationInput
 }
 
 input UserUpdateOneWithoutDevicesInput {
@@ -4227,12 +4346,22 @@ input UserUpdateOneWithoutLocationsInput {
   upsert: UserUpsertWithoutLocationsInput
 }
 
+input UserUpdateWithoutDefaultLocationDataInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  devices: DeviceUpdateManyWithoutUserInput
+  locations: LocationUpdateManyWithoutUserInput
+}
+
 input UserUpdateWithoutDevicesDataInput {
   firstName: String
   lastName: String
   email: String
   password: String
   locations: LocationUpdateManyWithoutUserInput
+  defaultLocation: LocationUpdateOneWithoutUserDefaultInput
 }
 
 input UserUpdateWithoutLocationsDataInput {
@@ -4241,6 +4370,12 @@ input UserUpdateWithoutLocationsDataInput {
   email: String
   password: String
   devices: DeviceUpdateManyWithoutUserInput
+  defaultLocation: LocationUpdateOneWithoutUserDefaultInput
+}
+
+input UserUpsertWithoutDefaultLocationInput {
+  update: UserUpdateWithoutDefaultLocationDataInput!
+  create: UserCreateWithoutDefaultLocationInput!
 }
 
 input UserUpsertWithoutDevicesInput {
@@ -4591,6 +4726,7 @@ input UserWhereInput {
   locations_every: LocationWhereInput
   locations_some: LocationWhereInput
   locations_none: LocationWhereInput
+  defaultLocation: LocationWhereInput
 }
 
 input UserWhereUniqueInput {

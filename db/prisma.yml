@@ -9,3 +9,23 @@ seed:
 # secret: cascade-secret
 disableAuth: true
 cluster: cascade/prisma-eu1
+# cluster: local
+
+# subscriptions:
+#   newLog:
+#     webhook:
+#       url: https://hookb.in/vgLJlpDW
+#       headers:
+#         Content-Type: application/json
+#         Authorization: Bearer cha2eiheiphesash3shoofo7eceexaequeebuyaequ1reishiujuu6weisao7ohc
+#     query: |
+#       subscription {
+#         log(where: {
+#           mutation_in: [CREATED]
+#         }) {
+#           node {
+#             id
+#             value
+#           }
+#         }
+#       }

@@ -49,6 +49,7 @@ const server = new GraphQLServer({
     db: new Prisma({
       typeDefs: 'src/generated/prisma.graphql',             // points to Prisma database schema
       endpoint: 'https://eu1.prisma.sh/cascade/backend/dev',// Prisma service endpoint (see `~/.prisma/config.yml`)
+      // endpoint: 'http://localhost:4466/backend/dev',
       secret: 'cascade-secret',                                // `secret` taken from `prisma.yml`
       debug: true                                           // log all requests to the Prisma API to console
     }),
