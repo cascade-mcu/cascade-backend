@@ -92,6 +92,7 @@ type Log {
 type Scene {
   name: String
   id: ID! @unique
+  location: Location @relation(name: "LocationScenes")
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -115,4 +116,5 @@ type Location {
   createdAt: DateTime!
   user: User @relation(name: "UserLocations")
   userDefault: User @relation(name: "UserDefaultLocation")
+  scenes: [Scene!]! @relation(name: "LocationScenes")
 }

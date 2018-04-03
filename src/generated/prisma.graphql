@@ -57,6 +57,7 @@ type Location implements Node {
   createdAt: DateTime!
   user(where: UserWhereInput): User
   userDefault(where: UserWhereInput): User
+  scenes(where: SceneWhereInput, orderBy: SceneOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Scene!]
 }
 
 type Log implements Node {
@@ -72,8 +73,8 @@ type Place implements Node {
   name: String
   id: ID!
   location(where: LocationWhereInput): Location
-  devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device!]
   locationDefault(where: LocationWhereInput): Location
+  devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device!]
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -81,6 +82,7 @@ type Place implements Node {
 type Scene implements Node {
   name: String
   id: ID!
+  location(where: LocationWhereInput): Location
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -1957,6 +1959,7 @@ input LocationCreateInput {
   defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
   user: UserCreateOneWithoutLocationsInput
   userDefault: UserCreateOneWithoutDefaultLocationInput
+  scenes: SceneCreateManyWithoutLocationInput
 }
 
 input LocationCreateManyWithoutUserInput {
@@ -1974,6 +1977,11 @@ input LocationCreateOneWithoutPlacesInput {
   connect: LocationWhereUniqueInput
 }
 
+input LocationCreateOneWithoutScenesInput {
+  create: LocationCreateWithoutScenesInput
+  connect: LocationWhereUniqueInput
+}
+
 input LocationCreateOneWithoutUserDefaultInput {
   create: LocationCreateWithoutUserDefaultInput
   connect: LocationWhereUniqueInput
@@ -1984,10 +1992,20 @@ input LocationCreateWithoutDefaultPlaceInput {
   places: PlaceCreateManyWithoutLocationInput
   user: UserCreateOneWithoutLocationsInput
   userDefault: UserCreateOneWithoutDefaultLocationInput
+  scenes: SceneCreateManyWithoutLocationInput
 }
 
 input LocationCreateWithoutPlacesInput {
   name: String
+  defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
+  user: UserCreateOneWithoutLocationsInput
+  userDefault: UserCreateOneWithoutDefaultLocationInput
+  scenes: SceneCreateManyWithoutLocationInput
+}
+
+input LocationCreateWithoutScenesInput {
+  name: String
+  places: PlaceCreateManyWithoutLocationInput
   defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
   user: UserCreateOneWithoutLocationsInput
   userDefault: UserCreateOneWithoutDefaultLocationInput
@@ -1998,6 +2016,7 @@ input LocationCreateWithoutUserDefaultInput {
   places: PlaceCreateManyWithoutLocationInput
   defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
   user: UserCreateOneWithoutLocationsInput
+  scenes: SceneCreateManyWithoutLocationInput
 }
 
 input LocationCreateWithoutUserInput {
@@ -2005,6 +2024,7 @@ input LocationCreateWithoutUserInput {
   places: PlaceCreateManyWithoutLocationInput
   defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
   userDefault: UserCreateOneWithoutDefaultLocationInput
+  scenes: SceneCreateManyWithoutLocationInput
 }
 
 """
@@ -2080,6 +2100,7 @@ input LocationUpdateInput {
   defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
   user: UserUpdateOneWithoutLocationsInput
   userDefault: UserUpdateOneWithoutDefaultLocationInput
+  scenes: SceneUpdateManyWithoutLocationInput
 }
 
 input LocationUpdateManyWithoutUserInput {
@@ -2109,6 +2130,15 @@ input LocationUpdateOneWithoutPlacesInput {
   upsert: LocationUpsertWithoutPlacesInput
 }
 
+input LocationUpdateOneWithoutScenesInput {
+  create: LocationCreateWithoutScenesInput
+  connect: LocationWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: LocationUpdateWithoutScenesDataInput
+  upsert: LocationUpsertWithoutScenesInput
+}
+
 input LocationUpdateOneWithoutUserDefaultInput {
   create: LocationCreateWithoutUserDefaultInput
   connect: LocationWhereUniqueInput
@@ -2123,10 +2153,20 @@ input LocationUpdateWithoutDefaultPlaceDataInput {
   places: PlaceUpdateManyWithoutLocationInput
   user: UserUpdateOneWithoutLocationsInput
   userDefault: UserUpdateOneWithoutDefaultLocationInput
+  scenes: SceneUpdateManyWithoutLocationInput
 }
 
 input LocationUpdateWithoutPlacesDataInput {
   name: String
+  defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
+  user: UserUpdateOneWithoutLocationsInput
+  userDefault: UserUpdateOneWithoutDefaultLocationInput
+  scenes: SceneUpdateManyWithoutLocationInput
+}
+
+input LocationUpdateWithoutScenesDataInput {
+  name: String
+  places: PlaceUpdateManyWithoutLocationInput
   defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
   user: UserUpdateOneWithoutLocationsInput
   userDefault: UserUpdateOneWithoutDefaultLocationInput
@@ -2137,6 +2177,7 @@ input LocationUpdateWithoutUserDataInput {
   places: PlaceUpdateManyWithoutLocationInput
   defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
   userDefault: UserUpdateOneWithoutDefaultLocationInput
+  scenes: SceneUpdateManyWithoutLocationInput
 }
 
 input LocationUpdateWithoutUserDefaultDataInput {
@@ -2144,6 +2185,7 @@ input LocationUpdateWithoutUserDefaultDataInput {
   places: PlaceUpdateManyWithoutLocationInput
   defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
   user: UserUpdateOneWithoutLocationsInput
+  scenes: SceneUpdateManyWithoutLocationInput
 }
 
 input LocationUpdateWithWhereUniqueWithoutUserInput {
@@ -2159,6 +2201,11 @@ input LocationUpsertWithoutDefaultPlaceInput {
 input LocationUpsertWithoutPlacesInput {
   update: LocationUpdateWithoutPlacesDataInput!
   create: LocationCreateWithoutPlacesInput!
+}
+
+input LocationUpsertWithoutScenesInput {
+  update: LocationUpdateWithoutScenesDataInput!
+  create: LocationCreateWithoutScenesInput!
 }
 
 input LocationUpsertWithoutUserDefaultInput {
@@ -2351,6 +2398,9 @@ input LocationWhereInput {
   defaultPlace: PlaceWhereInput
   user: UserWhereInput
   userDefault: UserWhereInput
+  scenes_every: SceneWhereInput
+  scenes_some: SceneWhereInput
+  scenes_none: SceneWhereInput
 }
 
 input LocationWhereUniqueInput {
@@ -2811,8 +2861,8 @@ type PlaceConnection {
 input PlaceCreateInput {
   name: String
   location: LocationCreateOneWithoutPlacesInput
-  devices: DeviceCreateManyWithoutPlaceInput
   locationDefault: LocationCreateOneWithoutDefaultPlaceInput
+  devices: DeviceCreateManyWithoutPlaceInput
 }
 
 input PlaceCreateManyWithoutLocationInput {
@@ -2844,8 +2894,8 @@ input PlaceCreateWithoutLocationDefaultInput {
 
 input PlaceCreateWithoutLocationInput {
   name: String
-  devices: DeviceCreateManyWithoutPlaceInput
   locationDefault: LocationCreateOneWithoutDefaultPlaceInput
+  devices: DeviceCreateManyWithoutPlaceInput
 }
 
 """
@@ -2918,8 +2968,8 @@ input PlaceSubscriptionWhereInput {
 input PlaceUpdateInput {
   name: String
   location: LocationUpdateOneWithoutPlacesInput
-  devices: DeviceUpdateManyWithoutPlaceInput
   locationDefault: LocationUpdateOneWithoutDefaultPlaceInput
+  devices: DeviceUpdateManyWithoutPlaceInput
 }
 
 input PlaceUpdateManyWithoutLocationInput {
@@ -2957,8 +3007,8 @@ input PlaceUpdateWithoutDevicesDataInput {
 
 input PlaceUpdateWithoutLocationDataInput {
   name: String
-  devices: DeviceUpdateManyWithoutPlaceInput
   locationDefault: LocationUpdateOneWithoutDefaultPlaceInput
+  devices: DeviceUpdateManyWithoutPlaceInput
 }
 
 input PlaceUpdateWithoutLocationDefaultDataInput {
@@ -3162,10 +3212,10 @@ input PlaceWhereInput {
   """
   createdAt_gte: DateTime
   location: LocationWhereInput
+  locationDefault: LocationWhereInput
   devices_every: DeviceWhereInput
   devices_some: DeviceWhereInput
   devices_none: DeviceWhereInput
-  locationDefault: LocationWhereInput
 }
 
 input PlaceWhereUniqueInput {
@@ -3234,6 +3284,16 @@ type SceneConnection {
 }
 
 input SceneCreateInput {
+  name: String
+  location: LocationCreateOneWithoutScenesInput
+}
+
+input SceneCreateManyWithoutLocationInput {
+  create: [SceneCreateWithoutLocationInput!]
+  connect: [SceneWhereUniqueInput!]
+}
+
+input SceneCreateWithoutLocationInput {
   name: String
 }
 
@@ -3306,6 +3366,31 @@ input SceneSubscriptionWhereInput {
 
 input SceneUpdateInput {
   name: String
+  location: LocationUpdateOneWithoutScenesInput
+}
+
+input SceneUpdateManyWithoutLocationInput {
+  create: [SceneCreateWithoutLocationInput!]
+  connect: [SceneWhereUniqueInput!]
+  disconnect: [SceneWhereUniqueInput!]
+  delete: [SceneWhereUniqueInput!]
+  update: [SceneUpdateWithWhereUniqueWithoutLocationInput!]
+  upsert: [SceneUpsertWithWhereUniqueWithoutLocationInput!]
+}
+
+input SceneUpdateWithoutLocationDataInput {
+  name: String
+}
+
+input SceneUpdateWithWhereUniqueWithoutLocationInput {
+  where: SceneWhereUniqueInput!
+  data: SceneUpdateWithoutLocationDataInput!
+}
+
+input SceneUpsertWithWhereUniqueWithoutLocationInput {
+  where: SceneWhereUniqueInput!
+  update: SceneUpdateWithoutLocationDataInput!
+  create: SceneCreateWithoutLocationInput!
 }
 
 input SceneWhereInput {
@@ -3481,6 +3566,7 @@ input SceneWhereInput {
   All values greater than or equal the given value.
   """
   createdAt_gte: DateTime
+  location: LocationWhereInput
 }
 
 input SceneWhereUniqueInput {
