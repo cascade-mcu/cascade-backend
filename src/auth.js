@@ -25,6 +25,28 @@ async function signup(parent, args, ctx, info) {
     data: { ...args, password },
   })
 
+  const homeLocation = await ctx.db.mutation.createLocation({
+    data: {
+      name: 'Home',
+      user: {
+        connect: {
+          id: user.id,
+        },
+      },
+    },
+  });
+
+  await ctx.db.mutation.createPlace({
+    data: {
+      name: 'My Room',
+      location: {
+        connect: {
+          id: homeLocation.id,
+        },
+      },
+    },
+  });
+
   return {
     token: jwt.sign({ userId: user.id }, APP_SECRET),
     user,

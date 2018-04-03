@@ -18,6 +18,7 @@ type User {
   email: String @unique
   password: String
   devices: [Device!]! @relation(name: "UserDevices")
+  locations: [Location!]! @relation(name: "UserLocations")
 }
 
 type Device {
@@ -109,4 +110,5 @@ type Location {
   places: [Place!]! @relation(name: "LocationPlaces")
   updatedAt: DateTime!
   createdAt: DateTime!
+  user: User @relation(name: "UserLocations")
 }
