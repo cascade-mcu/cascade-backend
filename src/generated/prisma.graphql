@@ -55,6 +55,7 @@ type Location implements Node {
   updatedAt: DateTime!
   createdAt: DateTime!
   user(where: UserWhereInput): User
+  isDefault: Boolean!
 }
 
 type Log implements Node {
@@ -73,6 +74,7 @@ type Place implements Node {
   devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device!]
   updatedAt: DateTime!
   createdAt: DateTime!
+  isDefault: Boolean!
 }
 
 type Scene implements Node {
@@ -1949,6 +1951,7 @@ type LocationConnection {
 
 input LocationCreateInput {
   name: String
+  isDefault: Boolean
   places: PlaceCreateManyWithoutLocationInput
   user: UserCreateOneWithoutLocationsInput
 }
@@ -1965,11 +1968,13 @@ input LocationCreateOneWithoutPlacesInput {
 
 input LocationCreateWithoutPlacesInput {
   name: String
+  isDefault: Boolean
   user: UserCreateOneWithoutLocationsInput
 }
 
 input LocationCreateWithoutUserInput {
   name: String
+  isDefault: Boolean
   places: PlaceCreateManyWithoutLocationInput
 }
 
@@ -1996,6 +2001,8 @@ enum LocationOrderByInput {
   updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  isDefault_ASC
+  isDefault_DESC
 }
 
 type LocationPreviousValues {
@@ -2003,6 +2010,7 @@ type LocationPreviousValues {
   id: ID!
   updatedAt: DateTime!
   createdAt: DateTime!
+  isDefault: Boolean!
 }
 
 type LocationSubscriptionPayload {
@@ -2042,6 +2050,7 @@ input LocationSubscriptionWhereInput {
 
 input LocationUpdateInput {
   name: String
+  isDefault: Boolean
   places: PlaceUpdateManyWithoutLocationInput
   user: UserUpdateOneWithoutLocationsInput
 }
@@ -2066,11 +2075,13 @@ input LocationUpdateOneWithoutPlacesInput {
 
 input LocationUpdateWithoutPlacesDataInput {
   name: String
+  isDefault: Boolean
   user: UserUpdateOneWithoutLocationsInput
 }
 
 input LocationUpdateWithoutUserDataInput {
   name: String
+  isDefault: Boolean
   places: PlaceUpdateManyWithoutLocationInput
 }
 
@@ -2263,6 +2274,11 @@ input LocationWhereInput {
   All values greater than or equal the given value.
   """
   createdAt_gte: DateTime
+  isDefault: Boolean
+  """
+  All values that are not equal to given value.
+  """
+  isDefault_not: Boolean
   places_every: PlaceWhereInput
   places_some: PlaceWhereInput
   places_none: PlaceWhereInput
@@ -2726,6 +2742,7 @@ type PlaceConnection {
 
 input PlaceCreateInput {
   name: String
+  isDefault: Boolean
   location: LocationCreateOneWithoutPlacesInput
   devices: DeviceCreateManyWithoutPlaceInput
 }
@@ -2742,11 +2759,13 @@ input PlaceCreateOneWithoutDevicesInput {
 
 input PlaceCreateWithoutDevicesInput {
   name: String
+  isDefault: Boolean
   location: LocationCreateOneWithoutPlacesInput
 }
 
 input PlaceCreateWithoutLocationInput {
   name: String
+  isDefault: Boolean
   devices: DeviceCreateManyWithoutPlaceInput
 }
 
@@ -2773,6 +2792,8 @@ enum PlaceOrderByInput {
   updatedAt_DESC
   createdAt_ASC
   createdAt_DESC
+  isDefault_ASC
+  isDefault_DESC
 }
 
 type PlacePreviousValues {
@@ -2780,6 +2801,7 @@ type PlacePreviousValues {
   id: ID!
   updatedAt: DateTime!
   createdAt: DateTime!
+  isDefault: Boolean!
 }
 
 type PlaceSubscriptionPayload {
@@ -2819,6 +2841,7 @@ input PlaceSubscriptionWhereInput {
 
 input PlaceUpdateInput {
   name: String
+  isDefault: Boolean
   location: LocationUpdateOneWithoutPlacesInput
   devices: DeviceUpdateManyWithoutPlaceInput
 }
@@ -2843,11 +2866,13 @@ input PlaceUpdateOneWithoutDevicesInput {
 
 input PlaceUpdateWithoutDevicesDataInput {
   name: String
+  isDefault: Boolean
   location: LocationUpdateOneWithoutPlacesInput
 }
 
 input PlaceUpdateWithoutLocationDataInput {
   name: String
+  isDefault: Boolean
   devices: DeviceUpdateManyWithoutPlaceInput
 }
 
@@ -3040,6 +3065,11 @@ input PlaceWhereInput {
   All values greater than or equal the given value.
   """
   createdAt_gte: DateTime
+  isDefault: Boolean
+  """
+  All values that are not equal to given value.
+  """
+  isDefault_not: Boolean
   location: LocationWhereInput
   devices_every: DeviceWhereInput
   devices_some: DeviceWhereInput

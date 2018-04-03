@@ -102,6 +102,7 @@ type Place {
   devices: [Device!]! @relation(name: "PlaceDevices")
   updatedAt: DateTime!
   createdAt: DateTime!
+  isDefault: Boolean! @default(value: false)
 }
 
 type Location {
@@ -111,4 +112,5 @@ type Location {
   updatedAt: DateTime!
   createdAt: DateTime!
   user: User @relation(name: "UserLocations")
+  isDefault: Boolean! @default(value: false)
 }

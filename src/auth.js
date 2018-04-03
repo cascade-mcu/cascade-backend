@@ -27,6 +27,7 @@ async function signup(parent, args, ctx, info) {
 
   const homeLocation = await ctx.db.mutation.createLocation({
     data: {
+      isDefault: true,
       name: 'Home',
       user: {
         connect: {
@@ -38,6 +39,7 @@ async function signup(parent, args, ctx, info) {
 
   await ctx.db.mutation.createPlace({
     data: {
+      isDefault: true,
       name: 'My Room',
       location: {
         connect: {
