@@ -34,6 +34,8 @@ type Device {
   name: String
   token: String
   deviceModel: DeviceModel @relation(name: "DeviceModelDevices")
+  logEveryInSeconds: Int! @default(value: 30)
+  uploadEveryInSeconds: Int! @default(value: 35)
 }
 
 type DeviceModel {
@@ -53,6 +55,12 @@ type SensorType {
   updatedAt: DateTime!
   sensors: [Sensor!]! @relation(name: "SensorSensorType")
   deviceModels: [DeviceModel!]! @relation(name: "DeviceModelSensorTypes")
+}
+
+type Preset {
+  createdAt: DateTime!
+  id: ID! @unique
+  updatedAt: DateTime!
 }
 
 type Group {
