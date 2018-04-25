@@ -1,5 +1,5 @@
-service: backend
-stage: dev
+#service: backend
+#stage: dev
 
 datamodel: datamodel.graphql
 seed:
@@ -8,7 +8,7 @@ seed:
 # to enable auth, provide
 # secret: cascade-secret
 disableAuth: true
-cluster: cascade/prisma-eu1
+#cluster: cascade/prisma-eu1
 # cluster: local
 
 # subscriptions:
@@ -29,3 +29,5 @@ cluster: cascade/prisma-eu1
 #           }
 #         }
 #       }
+
+endpoint: https://eu1.prisma.sh/cascade/backend/dev
