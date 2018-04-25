@@ -31,3 +31,8 @@ disableAuth: true
 #       }
 
 endpoint: https://eu1.prisma.sh/cascade/backend/dev
+
+hooks:
+  post-deploy:
+    - graphql get-schema --project database
+    - graphql prepare

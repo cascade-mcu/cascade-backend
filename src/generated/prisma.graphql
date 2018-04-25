@@ -1,0 +1,5215 @@
+# source: https://eu1.prisma.sh/cascade/backend/dev
+# timestamp: Wed Apr 25 2018 16:46:31 GMT+0300 (EEST)
+
+type AggregateDevice {
+  count: Int!
+}
+
+type AggregateDeviceModel {
+  count: Int!
+}
+
+type AggregateFile {
+  count: Int!
+}
+
+type AggregateGroup {
+  count: Int!
+}
+
+type AggregateLocation {
+  count: Int!
+}
+
+type AggregateLog {
+  count: Int!
+}
+
+type AggregatePlace {
+  count: Int!
+}
+
+type AggregatePreset {
+  count: Int!
+}
+
+type AggregateScene {
+  count: Int!
+}
+
+type AggregateSensor {
+  count: Int!
+}
+
+type AggregateSensorType {
+  count: Int!
+}
+
+type AggregateUser {
+  count: Int!
+}
+
+type AggregateWifiLog {
+  count: Int!
+}
+
+type AggregateWorker {
+  count: Int!
+}
+
+type BatchPayload {
+  """The number of nodes that have been affected by the Batch operation."""
+  count: Long!
+}
+
+scalar DateTime
+
+type Device implements Node {
+  createdAt: DateTime!
+  id: ID!
+  updatedAt: DateTime!
+  place(where: PlaceWhereInput): Place
+  sensors(where: SensorWhereInput, orderBy: SensorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sensor!]
+  wifiLogs(where: WifiLogWhereInput, orderBy: WifiLogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [WifiLog!]
+  workers(where: WorkerWhereInput, orderBy: WorkerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Worker!]
+  groups(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Group!]
+  user(where: UserWhereInput): User
+  name: String
+  token: String
+  deviceModel(where: DeviceModelWhereInput): DeviceModel
+  logEveryInSeconds: Int!
+  uploadEveryInSeconds: Int!
+}
+
+"""A connection to a list of items."""
+type DeviceConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [DeviceEdge]!
+  aggregate: AggregateDevice!
+}
+
+input DeviceCreateInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceCreateOneWithoutDevicesInput
+  sensors: SensorCreateManyWithoutDeviceInput
+  wifiLogs: WifiLogCreateManyWithoutDeviceInput
+  workers: WorkerCreateManyWithoutDeviceInput
+  groups: GroupCreateManyWithoutDevicesInput
+  user: UserCreateOneWithoutDevicesInput
+  deviceModel: DeviceModelCreateOneWithoutDevicesInput
+}
+
+input DeviceCreateManyWithoutDeviceModelInput {
+  create: [DeviceCreateWithoutDeviceModelInput!]
+  connect: [DeviceWhereUniqueInput!]
+}
+
+input DeviceCreateManyWithoutGroupsInput {
+  create: [DeviceCreateWithoutGroupsInput!]
+  connect: [DeviceWhereUniqueInput!]
+}
+
+input DeviceCreateManyWithoutPlaceInput {
+  create: [DeviceCreateWithoutPlaceInput!]
+  connect: [DeviceWhereUniqueInput!]
+}
+
+input DeviceCreateManyWithoutUserInput {
+  create: [DeviceCreateWithoutUserInput!]
+  connect: [DeviceWhereUniqueInput!]
+}
+
+input DeviceCreateOneWithoutSensorsInput {
+  create: DeviceCreateWithoutSensorsInput
+  connect: DeviceWhereUniqueInput
+}
+
+input DeviceCreateOneWithoutWifiLogsInput {
+  create: DeviceCreateWithoutWifiLogsInput
+  connect: DeviceWhereUniqueInput
+}
+
+input DeviceCreateOneWithoutWorkersInput {
+  create: DeviceCreateWithoutWorkersInput
+  connect: DeviceWhereUniqueInput
+}
+
+input DeviceCreateWithoutDeviceModelInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceCreateOneWithoutDevicesInput
+  sensors: SensorCreateManyWithoutDeviceInput
+  wifiLogs: WifiLogCreateManyWithoutDeviceInput
+  workers: WorkerCreateManyWithoutDeviceInput
+  groups: GroupCreateManyWithoutDevicesInput
+  user: UserCreateOneWithoutDevicesInput
+}
+
+input DeviceCreateWithoutGroupsInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceCreateOneWithoutDevicesInput
+  sensors: SensorCreateManyWithoutDeviceInput
+  wifiLogs: WifiLogCreateManyWithoutDeviceInput
+  workers: WorkerCreateManyWithoutDeviceInput
+  user: UserCreateOneWithoutDevicesInput
+  deviceModel: DeviceModelCreateOneWithoutDevicesInput
+}
+
+input DeviceCreateWithoutPlaceInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  sensors: SensorCreateManyWithoutDeviceInput
+  wifiLogs: WifiLogCreateManyWithoutDeviceInput
+  workers: WorkerCreateManyWithoutDeviceInput
+  groups: GroupCreateManyWithoutDevicesInput
+  user: UserCreateOneWithoutDevicesInput
+  deviceModel: DeviceModelCreateOneWithoutDevicesInput
+}
+
+input DeviceCreateWithoutSensorsInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceCreateOneWithoutDevicesInput
+  wifiLogs: WifiLogCreateManyWithoutDeviceInput
+  workers: WorkerCreateManyWithoutDeviceInput
+  groups: GroupCreateManyWithoutDevicesInput
+  user: UserCreateOneWithoutDevicesInput
+  deviceModel: DeviceModelCreateOneWithoutDevicesInput
+}
+
+input DeviceCreateWithoutUserInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceCreateOneWithoutDevicesInput
+  sensors: SensorCreateManyWithoutDeviceInput
+  wifiLogs: WifiLogCreateManyWithoutDeviceInput
+  workers: WorkerCreateManyWithoutDeviceInput
+  groups: GroupCreateManyWithoutDevicesInput
+  deviceModel: DeviceModelCreateOneWithoutDevicesInput
+}
+
+input DeviceCreateWithoutWifiLogsInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceCreateOneWithoutDevicesInput
+  sensors: SensorCreateManyWithoutDeviceInput
+  workers: WorkerCreateManyWithoutDeviceInput
+  groups: GroupCreateManyWithoutDevicesInput
+  user: UserCreateOneWithoutDevicesInput
+  deviceModel: DeviceModelCreateOneWithoutDevicesInput
+}
+
+input DeviceCreateWithoutWorkersInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceCreateOneWithoutDevicesInput
+  sensors: SensorCreateManyWithoutDeviceInput
+  wifiLogs: WifiLogCreateManyWithoutDeviceInput
+  groups: GroupCreateManyWithoutDevicesInput
+  user: UserCreateOneWithoutDevicesInput
+  deviceModel: DeviceModelCreateOneWithoutDevicesInput
+}
+
+"""An edge in a connection."""
+type DeviceEdge {
+  """The item at the end of the edge."""
+  node: Device!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type DeviceModel implements Node {
+  createdAt: DateTime!
+  name: String
+  id: ID!
+  updatedAt: DateTime!
+  devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device!]
+  sensorTypes(where: SensorTypeWhereInput, orderBy: SensorTypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SensorType!]
+  available: Boolean!
+}
+
+"""A connection to a list of items."""
+type DeviceModelConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [DeviceModelEdge]!
+  aggregate: AggregateDeviceModel!
+}
+
+input DeviceModelCreateInput {
+  name: String
+  available: Boolean
+  devices: DeviceCreateManyWithoutDeviceModelInput
+  sensorTypes: SensorTypeCreateManyWithoutDeviceModelsInput
+}
+
+input DeviceModelCreateManyWithoutSensorTypesInput {
+  create: [DeviceModelCreateWithoutSensorTypesInput!]
+  connect: [DeviceModelWhereUniqueInput!]
+}
+
+input DeviceModelCreateOneWithoutDevicesInput {
+  create: DeviceModelCreateWithoutDevicesInput
+  connect: DeviceModelWhereUniqueInput
+}
+
+input DeviceModelCreateWithoutDevicesInput {
+  name: String
+  available: Boolean
+  sensorTypes: SensorTypeCreateManyWithoutDeviceModelsInput
+}
+
+input DeviceModelCreateWithoutSensorTypesInput {
+  name: String
+  available: Boolean
+  devices: DeviceCreateManyWithoutDeviceModelInput
+}
+
+"""An edge in a connection."""
+type DeviceModelEdge {
+  """The item at the end of the edge."""
+  node: DeviceModel!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum DeviceModelOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  name_ASC
+  name_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  available_ASC
+  available_DESC
+}
+
+type DeviceModelPreviousValues {
+  createdAt: DateTime!
+  name: String
+  id: ID!
+  updatedAt: DateTime!
+  available: Boolean!
+}
+
+type DeviceModelSubscriptionPayload {
+  mutation: MutationType!
+  node: DeviceModel
+  updatedFields: [String!]
+  previousValues: DeviceModelPreviousValues
+}
+
+input DeviceModelSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DeviceModelSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DeviceModelSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: DeviceModelWhereInput
+}
+
+input DeviceModelUpdateInput {
+  name: String
+  available: Boolean
+  devices: DeviceUpdateManyWithoutDeviceModelInput
+  sensorTypes: SensorTypeUpdateManyWithoutDeviceModelsInput
+}
+
+input DeviceModelUpdateManyWithoutSensorTypesInput {
+  create: [DeviceModelCreateWithoutSensorTypesInput!]
+  connect: [DeviceModelWhereUniqueInput!]
+  disconnect: [DeviceModelWhereUniqueInput!]
+  delete: [DeviceModelWhereUniqueInput!]
+  update: [DeviceModelUpdateWithWhereUniqueWithoutSensorTypesInput!]
+  upsert: [DeviceModelUpsertWithWhereUniqueWithoutSensorTypesInput!]
+}
+
+input DeviceModelUpdateOneWithoutDevicesInput {
+  create: DeviceModelCreateWithoutDevicesInput
+  connect: DeviceModelWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: DeviceModelUpdateWithoutDevicesDataInput
+  upsert: DeviceModelUpsertWithoutDevicesInput
+}
+
+input DeviceModelUpdateWithoutDevicesDataInput {
+  name: String
+  available: Boolean
+  sensorTypes: SensorTypeUpdateManyWithoutDeviceModelsInput
+}
+
+input DeviceModelUpdateWithoutSensorTypesDataInput {
+  name: String
+  available: Boolean
+  devices: DeviceUpdateManyWithoutDeviceModelInput
+}
+
+input DeviceModelUpdateWithWhereUniqueWithoutSensorTypesInput {
+  where: DeviceModelWhereUniqueInput!
+  data: DeviceModelUpdateWithoutSensorTypesDataInput!
+}
+
+input DeviceModelUpsertWithoutDevicesInput {
+  update: DeviceModelUpdateWithoutDevicesDataInput!
+  create: DeviceModelCreateWithoutDevicesInput!
+}
+
+input DeviceModelUpsertWithWhereUniqueWithoutSensorTypesInput {
+  where: DeviceModelWhereUniqueInput!
+  update: DeviceModelUpdateWithoutSensorTypesDataInput!
+  create: DeviceModelCreateWithoutSensorTypesInput!
+}
+
+input DeviceModelWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DeviceModelWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DeviceModelWhereInput!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  available: Boolean
+
+  """All values that are not equal to given value."""
+  available_not: Boolean
+  devices_every: DeviceWhereInput
+  devices_some: DeviceWhereInput
+  devices_none: DeviceWhereInput
+  sensorTypes_every: SensorTypeWhereInput
+  sensorTypes_some: SensorTypeWhereInput
+  sensorTypes_none: SensorTypeWhereInput
+}
+
+input DeviceModelWhereUniqueInput {
+  id: ID
+}
+
+enum DeviceOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  name_ASC
+  name_DESC
+  token_ASC
+  token_DESC
+  logEveryInSeconds_ASC
+  logEveryInSeconds_DESC
+  uploadEveryInSeconds_ASC
+  uploadEveryInSeconds_DESC
+}
+
+type DevicePreviousValues {
+  createdAt: DateTime!
+  id: ID!
+  updatedAt: DateTime!
+  name: String
+  token: String
+  logEveryInSeconds: Int!
+  uploadEveryInSeconds: Int!
+}
+
+type DeviceSubscriptionPayload {
+  mutation: MutationType!
+  node: Device
+  updatedFields: [String!]
+  previousValues: DevicePreviousValues
+}
+
+input DeviceSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DeviceSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DeviceSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: DeviceWhereInput
+}
+
+input DeviceUpdateInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceUpdateOneWithoutDevicesInput
+  sensors: SensorUpdateManyWithoutDeviceInput
+  wifiLogs: WifiLogUpdateManyWithoutDeviceInput
+  workers: WorkerUpdateManyWithoutDeviceInput
+  groups: GroupUpdateManyWithoutDevicesInput
+  user: UserUpdateOneWithoutDevicesInput
+  deviceModel: DeviceModelUpdateOneWithoutDevicesInput
+}
+
+input DeviceUpdateManyWithoutDeviceModelInput {
+  create: [DeviceCreateWithoutDeviceModelInput!]
+  connect: [DeviceWhereUniqueInput!]
+  disconnect: [DeviceWhereUniqueInput!]
+  delete: [DeviceWhereUniqueInput!]
+  update: [DeviceUpdateWithWhereUniqueWithoutDeviceModelInput!]
+  upsert: [DeviceUpsertWithWhereUniqueWithoutDeviceModelInput!]
+}
+
+input DeviceUpdateManyWithoutGroupsInput {
+  create: [DeviceCreateWithoutGroupsInput!]
+  connect: [DeviceWhereUniqueInput!]
+  disconnect: [DeviceWhereUniqueInput!]
+  delete: [DeviceWhereUniqueInput!]
+  update: [DeviceUpdateWithWhereUniqueWithoutGroupsInput!]
+  upsert: [DeviceUpsertWithWhereUniqueWithoutGroupsInput!]
+}
+
+input DeviceUpdateManyWithoutPlaceInput {
+  create: [DeviceCreateWithoutPlaceInput!]
+  connect: [DeviceWhereUniqueInput!]
+  disconnect: [DeviceWhereUniqueInput!]
+  delete: [DeviceWhereUniqueInput!]
+  update: [DeviceUpdateWithWhereUniqueWithoutPlaceInput!]
+  upsert: [DeviceUpsertWithWhereUniqueWithoutPlaceInput!]
+}
+
+input DeviceUpdateManyWithoutUserInput {
+  create: [DeviceCreateWithoutUserInput!]
+  connect: [DeviceWhereUniqueInput!]
+  disconnect: [DeviceWhereUniqueInput!]
+  delete: [DeviceWhereUniqueInput!]
+  update: [DeviceUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [DeviceUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input DeviceUpdateOneWithoutSensorsInput {
+  create: DeviceCreateWithoutSensorsInput
+  connect: DeviceWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: DeviceUpdateWithoutSensorsDataInput
+  upsert: DeviceUpsertWithoutSensorsInput
+}
+
+input DeviceUpdateOneWithoutWifiLogsInput {
+  create: DeviceCreateWithoutWifiLogsInput
+  connect: DeviceWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: DeviceUpdateWithoutWifiLogsDataInput
+  upsert: DeviceUpsertWithoutWifiLogsInput
+}
+
+input DeviceUpdateOneWithoutWorkersInput {
+  create: DeviceCreateWithoutWorkersInput
+  connect: DeviceWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: DeviceUpdateWithoutWorkersDataInput
+  upsert: DeviceUpsertWithoutWorkersInput
+}
+
+input DeviceUpdateWithoutDeviceModelDataInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceUpdateOneWithoutDevicesInput
+  sensors: SensorUpdateManyWithoutDeviceInput
+  wifiLogs: WifiLogUpdateManyWithoutDeviceInput
+  workers: WorkerUpdateManyWithoutDeviceInput
+  groups: GroupUpdateManyWithoutDevicesInput
+  user: UserUpdateOneWithoutDevicesInput
+}
+
+input DeviceUpdateWithoutGroupsDataInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceUpdateOneWithoutDevicesInput
+  sensors: SensorUpdateManyWithoutDeviceInput
+  wifiLogs: WifiLogUpdateManyWithoutDeviceInput
+  workers: WorkerUpdateManyWithoutDeviceInput
+  user: UserUpdateOneWithoutDevicesInput
+  deviceModel: DeviceModelUpdateOneWithoutDevicesInput
+}
+
+input DeviceUpdateWithoutPlaceDataInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  sensors: SensorUpdateManyWithoutDeviceInput
+  wifiLogs: WifiLogUpdateManyWithoutDeviceInput
+  workers: WorkerUpdateManyWithoutDeviceInput
+  groups: GroupUpdateManyWithoutDevicesInput
+  user: UserUpdateOneWithoutDevicesInput
+  deviceModel: DeviceModelUpdateOneWithoutDevicesInput
+}
+
+input DeviceUpdateWithoutSensorsDataInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceUpdateOneWithoutDevicesInput
+  wifiLogs: WifiLogUpdateManyWithoutDeviceInput
+  workers: WorkerUpdateManyWithoutDeviceInput
+  groups: GroupUpdateManyWithoutDevicesInput
+  user: UserUpdateOneWithoutDevicesInput
+  deviceModel: DeviceModelUpdateOneWithoutDevicesInput
+}
+
+input DeviceUpdateWithoutUserDataInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceUpdateOneWithoutDevicesInput
+  sensors: SensorUpdateManyWithoutDeviceInput
+  wifiLogs: WifiLogUpdateManyWithoutDeviceInput
+  workers: WorkerUpdateManyWithoutDeviceInput
+  groups: GroupUpdateManyWithoutDevicesInput
+  deviceModel: DeviceModelUpdateOneWithoutDevicesInput
+}
+
+input DeviceUpdateWithoutWifiLogsDataInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceUpdateOneWithoutDevicesInput
+  sensors: SensorUpdateManyWithoutDeviceInput
+  workers: WorkerUpdateManyWithoutDeviceInput
+  groups: GroupUpdateManyWithoutDevicesInput
+  user: UserUpdateOneWithoutDevicesInput
+  deviceModel: DeviceModelUpdateOneWithoutDevicesInput
+}
+
+input DeviceUpdateWithoutWorkersDataInput {
+  name: String
+  token: String
+  logEveryInSeconds: Int
+  uploadEveryInSeconds: Int
+  place: PlaceUpdateOneWithoutDevicesInput
+  sensors: SensorUpdateManyWithoutDeviceInput
+  wifiLogs: WifiLogUpdateManyWithoutDeviceInput
+  groups: GroupUpdateManyWithoutDevicesInput
+  user: UserUpdateOneWithoutDevicesInput
+  deviceModel: DeviceModelUpdateOneWithoutDevicesInput
+}
+
+input DeviceUpdateWithWhereUniqueWithoutDeviceModelInput {
+  where: DeviceWhereUniqueInput!
+  data: DeviceUpdateWithoutDeviceModelDataInput!
+}
+
+input DeviceUpdateWithWhereUniqueWithoutGroupsInput {
+  where: DeviceWhereUniqueInput!
+  data: DeviceUpdateWithoutGroupsDataInput!
+}
+
+input DeviceUpdateWithWhereUniqueWithoutPlaceInput {
+  where: DeviceWhereUniqueInput!
+  data: DeviceUpdateWithoutPlaceDataInput!
+}
+
+input DeviceUpdateWithWhereUniqueWithoutUserInput {
+  where: DeviceWhereUniqueInput!
+  data: DeviceUpdateWithoutUserDataInput!
+}
+
+input DeviceUpsertWithoutSensorsInput {
+  update: DeviceUpdateWithoutSensorsDataInput!
+  create: DeviceCreateWithoutSensorsInput!
+}
+
+input DeviceUpsertWithoutWifiLogsInput {
+  update: DeviceUpdateWithoutWifiLogsDataInput!
+  create: DeviceCreateWithoutWifiLogsInput!
+}
+
+input DeviceUpsertWithoutWorkersInput {
+  update: DeviceUpdateWithoutWorkersDataInput!
+  create: DeviceCreateWithoutWorkersInput!
+}
+
+input DeviceUpsertWithWhereUniqueWithoutDeviceModelInput {
+  where: DeviceWhereUniqueInput!
+  update: DeviceUpdateWithoutDeviceModelDataInput!
+  create: DeviceCreateWithoutDeviceModelInput!
+}
+
+input DeviceUpsertWithWhereUniqueWithoutGroupsInput {
+  where: DeviceWhereUniqueInput!
+  update: DeviceUpdateWithoutGroupsDataInput!
+  create: DeviceCreateWithoutGroupsInput!
+}
+
+input DeviceUpsertWithWhereUniqueWithoutPlaceInput {
+  where: DeviceWhereUniqueInput!
+  update: DeviceUpdateWithoutPlaceDataInput!
+  create: DeviceCreateWithoutPlaceInput!
+}
+
+input DeviceUpsertWithWhereUniqueWithoutUserInput {
+  where: DeviceWhereUniqueInput!
+  update: DeviceUpdateWithoutUserDataInput!
+  create: DeviceCreateWithoutUserInput!
+}
+
+input DeviceWhereInput {
+  """Logical AND on all given filters."""
+  AND: [DeviceWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [DeviceWhereInput!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  token: String
+
+  """All values that are not equal to given value."""
+  token_not: String
+
+  """All values that are contained in given list."""
+  token_in: [String!]
+
+  """All values that are not contained in given list."""
+  token_not_in: [String!]
+
+  """All values less than the given value."""
+  token_lt: String
+
+  """All values less than or equal the given value."""
+  token_lte: String
+
+  """All values greater than the given value."""
+  token_gt: String
+
+  """All values greater than or equal the given value."""
+  token_gte: String
+
+  """All values containing the given string."""
+  token_contains: String
+
+  """All values not containing the given string."""
+  token_not_contains: String
+
+  """All values starting with the given string."""
+  token_starts_with: String
+
+  """All values not starting with the given string."""
+  token_not_starts_with: String
+
+  """All values ending with the given string."""
+  token_ends_with: String
+
+  """All values not ending with the given string."""
+  token_not_ends_with: String
+  logEveryInSeconds: Int
+
+  """All values that are not equal to given value."""
+  logEveryInSeconds_not: Int
+
+  """All values that are contained in given list."""
+  logEveryInSeconds_in: [Int!]
+
+  """All values that are not contained in given list."""
+  logEveryInSeconds_not_in: [Int!]
+
+  """All values less than the given value."""
+  logEveryInSeconds_lt: Int
+
+  """All values less than or equal the given value."""
+  logEveryInSeconds_lte: Int
+
+  """All values greater than the given value."""
+  logEveryInSeconds_gt: Int
+
+  """All values greater than or equal the given value."""
+  logEveryInSeconds_gte: Int
+  uploadEveryInSeconds: Int
+
+  """All values that are not equal to given value."""
+  uploadEveryInSeconds_not: Int
+
+  """All values that are contained in given list."""
+  uploadEveryInSeconds_in: [Int!]
+
+  """All values that are not contained in given list."""
+  uploadEveryInSeconds_not_in: [Int!]
+
+  """All values less than the given value."""
+  uploadEveryInSeconds_lt: Int
+
+  """All values less than or equal the given value."""
+  uploadEveryInSeconds_lte: Int
+
+  """All values greater than the given value."""
+  uploadEveryInSeconds_gt: Int
+
+  """All values greater than or equal the given value."""
+  uploadEveryInSeconds_gte: Int
+  place: PlaceWhereInput
+  sensors_every: SensorWhereInput
+  sensors_some: SensorWhereInput
+  sensors_none: SensorWhereInput
+  wifiLogs_every: WifiLogWhereInput
+  wifiLogs_some: WifiLogWhereInput
+  wifiLogs_none: WifiLogWhereInput
+  workers_every: WorkerWhereInput
+  workers_some: WorkerWhereInput
+  workers_none: WorkerWhereInput
+  groups_every: GroupWhereInput
+  groups_some: GroupWhereInput
+  groups_none: GroupWhereInput
+  user: UserWhereInput
+  deviceModel: DeviceModelWhereInput
+}
+
+input DeviceWhereUniqueInput {
+  id: ID
+}
+
+type File implements Node {
+  contentType: String!
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  secret: String!
+  size: Int!
+  updatedAt: DateTime!
+  url: String!
+}
+
+"""A connection to a list of items."""
+type FileConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [FileEdge]!
+  aggregate: AggregateFile!
+}
+
+input FileCreateInput {
+  contentType: String!
+  name: String!
+  secret: String!
+  size: Int!
+  url: String!
+}
+
+"""An edge in a connection."""
+type FileEdge {
+  """The item at the end of the edge."""
+  node: File!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum FileOrderByInput {
+  contentType_ASC
+  contentType_DESC
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  secret_ASC
+  secret_DESC
+  size_ASC
+  size_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  url_ASC
+  url_DESC
+}
+
+type FilePreviousValues {
+  contentType: String!
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  secret: String!
+  size: Int!
+  updatedAt: DateTime!
+  url: String!
+}
+
+type FileSubscriptionPayload {
+  mutation: MutationType!
+  node: File
+  updatedFields: [String!]
+  previousValues: FilePreviousValues
+}
+
+input FileSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [FileSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FileSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: FileWhereInput
+}
+
+input FileUpdateInput {
+  contentType: String
+  name: String
+  secret: String
+  size: Int
+  url: String
+}
+
+input FileWhereInput {
+  """Logical AND on all given filters."""
+  AND: [FileWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FileWhereInput!]
+  contentType: String
+
+  """All values that are not equal to given value."""
+  contentType_not: String
+
+  """All values that are contained in given list."""
+  contentType_in: [String!]
+
+  """All values that are not contained in given list."""
+  contentType_not_in: [String!]
+
+  """All values less than the given value."""
+  contentType_lt: String
+
+  """All values less than or equal the given value."""
+  contentType_lte: String
+
+  """All values greater than the given value."""
+  contentType_gt: String
+
+  """All values greater than or equal the given value."""
+  contentType_gte: String
+
+  """All values containing the given string."""
+  contentType_contains: String
+
+  """All values not containing the given string."""
+  contentType_not_contains: String
+
+  """All values starting with the given string."""
+  contentType_starts_with: String
+
+  """All values not starting with the given string."""
+  contentType_not_starts_with: String
+
+  """All values ending with the given string."""
+  contentType_ends_with: String
+
+  """All values not ending with the given string."""
+  contentType_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  secret: String
+
+  """All values that are not equal to given value."""
+  secret_not: String
+
+  """All values that are contained in given list."""
+  secret_in: [String!]
+
+  """All values that are not contained in given list."""
+  secret_not_in: [String!]
+
+  """All values less than the given value."""
+  secret_lt: String
+
+  """All values less than or equal the given value."""
+  secret_lte: String
+
+  """All values greater than the given value."""
+  secret_gt: String
+
+  """All values greater than or equal the given value."""
+  secret_gte: String
+
+  """All values containing the given string."""
+  secret_contains: String
+
+  """All values not containing the given string."""
+  secret_not_contains: String
+
+  """All values starting with the given string."""
+  secret_starts_with: String
+
+  """All values not starting with the given string."""
+  secret_not_starts_with: String
+
+  """All values ending with the given string."""
+  secret_ends_with: String
+
+  """All values not ending with the given string."""
+  secret_not_ends_with: String
+  size: Int
+
+  """All values that are not equal to given value."""
+  size_not: Int
+
+  """All values that are contained in given list."""
+  size_in: [Int!]
+
+  """All values that are not contained in given list."""
+  size_not_in: [Int!]
+
+  """All values less than the given value."""
+  size_lt: Int
+
+  """All values less than or equal the given value."""
+  size_lte: Int
+
+  """All values greater than the given value."""
+  size_gt: Int
+
+  """All values greater than or equal the given value."""
+  size_gte: Int
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  url: String
+
+  """All values that are not equal to given value."""
+  url_not: String
+
+  """All values that are contained in given list."""
+  url_in: [String!]
+
+  """All values that are not contained in given list."""
+  url_not_in: [String!]
+
+  """All values less than the given value."""
+  url_lt: String
+
+  """All values less than or equal the given value."""
+  url_lte: String
+
+  """All values greater than the given value."""
+  url_gt: String
+
+  """All values greater than or equal the given value."""
+  url_gte: String
+
+  """All values containing the given string."""
+  url_contains: String
+
+  """All values not containing the given string."""
+  url_not_contains: String
+
+  """All values starting with the given string."""
+  url_starts_with: String
+
+  """All values not starting with the given string."""
+  url_not_starts_with: String
+
+  """All values ending with the given string."""
+  url_ends_with: String
+
+  """All values not ending with the given string."""
+  url_not_ends_with: String
+}
+
+input FileWhereUniqueInput {
+  id: ID
+}
+
+type Group implements Node {
+  createdAt: DateTime!
+  name: String
+  devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device!]
+  id: ID!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type GroupConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [GroupEdge]!
+  aggregate: AggregateGroup!
+}
+
+input GroupCreateInput {
+  name: String
+  devices: DeviceCreateManyWithoutGroupsInput
+}
+
+input GroupCreateManyWithoutDevicesInput {
+  create: [GroupCreateWithoutDevicesInput!]
+  connect: [GroupWhereUniqueInput!]
+}
+
+input GroupCreateWithoutDevicesInput {
+  name: String
+}
+
+"""An edge in a connection."""
+type GroupEdge {
+  """The item at the end of the edge."""
+  node: Group!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum GroupOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  name_ASC
+  name_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type GroupPreviousValues {
+  createdAt: DateTime!
+  name: String
+  id: ID!
+  updatedAt: DateTime!
+}
+
+type GroupSubscriptionPayload {
+  mutation: MutationType!
+  node: Group
+  updatedFields: [String!]
+  previousValues: GroupPreviousValues
+}
+
+input GroupSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GroupSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [GroupSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: GroupWhereInput
+}
+
+input GroupUpdateInput {
+  name: String
+  devices: DeviceUpdateManyWithoutGroupsInput
+}
+
+input GroupUpdateManyWithoutDevicesInput {
+  create: [GroupCreateWithoutDevicesInput!]
+  connect: [GroupWhereUniqueInput!]
+  disconnect: [GroupWhereUniqueInput!]
+  delete: [GroupWhereUniqueInput!]
+  update: [GroupUpdateWithWhereUniqueWithoutDevicesInput!]
+  upsert: [GroupUpsertWithWhereUniqueWithoutDevicesInput!]
+}
+
+input GroupUpdateWithoutDevicesDataInput {
+  name: String
+}
+
+input GroupUpdateWithWhereUniqueWithoutDevicesInput {
+  where: GroupWhereUniqueInput!
+  data: GroupUpdateWithoutDevicesDataInput!
+}
+
+input GroupUpsertWithWhereUniqueWithoutDevicesInput {
+  where: GroupWhereUniqueInput!
+  update: GroupUpdateWithoutDevicesDataInput!
+  create: GroupCreateWithoutDevicesInput!
+}
+
+input GroupWhereInput {
+  """Logical AND on all given filters."""
+  AND: [GroupWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [GroupWhereInput!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  devices_every: DeviceWhereInput
+  devices_some: DeviceWhereInput
+  devices_none: DeviceWhereInput
+}
+
+input GroupWhereUniqueInput {
+  id: ID
+}
+
+type Location implements Node {
+  name: String
+  id: ID!
+  places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place!]
+  defaultPlace(where: PlaceWhereInput): Place
+  updatedAt: DateTime!
+  createdAt: DateTime!
+  user(where: UserWhereInput): User
+  userDefault(where: UserWhereInput): User
+  scenes(where: SceneWhereInput, orderBy: SceneOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Scene!]
+}
+
+"""A connection to a list of items."""
+type LocationConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [LocationEdge]!
+  aggregate: AggregateLocation!
+}
+
+input LocationCreateInput {
+  name: String
+  places: PlaceCreateManyWithoutLocationInput
+  defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
+  user: UserCreateOneWithoutLocationsInput
+  userDefault: UserCreateOneWithoutDefaultLocationInput
+  scenes: SceneCreateManyWithoutLocationInput
+}
+
+input LocationCreateManyWithoutUserInput {
+  create: [LocationCreateWithoutUserInput!]
+  connect: [LocationWhereUniqueInput!]
+}
+
+input LocationCreateOneWithoutDefaultPlaceInput {
+  create: LocationCreateWithoutDefaultPlaceInput
+  connect: LocationWhereUniqueInput
+}
+
+input LocationCreateOneWithoutPlacesInput {
+  create: LocationCreateWithoutPlacesInput
+  connect: LocationWhereUniqueInput
+}
+
+input LocationCreateOneWithoutScenesInput {
+  create: LocationCreateWithoutScenesInput
+  connect: LocationWhereUniqueInput
+}
+
+input LocationCreateOneWithoutUserDefaultInput {
+  create: LocationCreateWithoutUserDefaultInput
+  connect: LocationWhereUniqueInput
+}
+
+input LocationCreateWithoutDefaultPlaceInput {
+  name: String
+  places: PlaceCreateManyWithoutLocationInput
+  user: UserCreateOneWithoutLocationsInput
+  userDefault: UserCreateOneWithoutDefaultLocationInput
+  scenes: SceneCreateManyWithoutLocationInput
+}
+
+input LocationCreateWithoutPlacesInput {
+  name: String
+  defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
+  user: UserCreateOneWithoutLocationsInput
+  userDefault: UserCreateOneWithoutDefaultLocationInput
+  scenes: SceneCreateManyWithoutLocationInput
+}
+
+input LocationCreateWithoutScenesInput {
+  name: String
+  places: PlaceCreateManyWithoutLocationInput
+  defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
+  user: UserCreateOneWithoutLocationsInput
+  userDefault: UserCreateOneWithoutDefaultLocationInput
+}
+
+input LocationCreateWithoutUserDefaultInput {
+  name: String
+  places: PlaceCreateManyWithoutLocationInput
+  defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
+  user: UserCreateOneWithoutLocationsInput
+  scenes: SceneCreateManyWithoutLocationInput
+}
+
+input LocationCreateWithoutUserInput {
+  name: String
+  places: PlaceCreateManyWithoutLocationInput
+  defaultPlace: PlaceCreateOneWithoutLocationDefaultInput
+  userDefault: UserCreateOneWithoutDefaultLocationInput
+  scenes: SceneCreateManyWithoutLocationInput
+}
+
+"""An edge in a connection."""
+type LocationEdge {
+  """The item at the end of the edge."""
+  node: Location!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum LocationOrderByInput {
+  name_ASC
+  name_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type LocationPreviousValues {
+  name: String
+  id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type LocationSubscriptionPayload {
+  mutation: MutationType!
+  node: Location
+  updatedFields: [String!]
+  previousValues: LocationPreviousValues
+}
+
+input LocationSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LocationSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LocationSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: LocationWhereInput
+}
+
+input LocationUpdateInput {
+  name: String
+  places: PlaceUpdateManyWithoutLocationInput
+  defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
+  user: UserUpdateOneWithoutLocationsInput
+  userDefault: UserUpdateOneWithoutDefaultLocationInput
+  scenes: SceneUpdateManyWithoutLocationInput
+}
+
+input LocationUpdateManyWithoutUserInput {
+  create: [LocationCreateWithoutUserInput!]
+  connect: [LocationWhereUniqueInput!]
+  disconnect: [LocationWhereUniqueInput!]
+  delete: [LocationWhereUniqueInput!]
+  update: [LocationUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [LocationUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input LocationUpdateOneWithoutDefaultPlaceInput {
+  create: LocationCreateWithoutDefaultPlaceInput
+  connect: LocationWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: LocationUpdateWithoutDefaultPlaceDataInput
+  upsert: LocationUpsertWithoutDefaultPlaceInput
+}
+
+input LocationUpdateOneWithoutPlacesInput {
+  create: LocationCreateWithoutPlacesInput
+  connect: LocationWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: LocationUpdateWithoutPlacesDataInput
+  upsert: LocationUpsertWithoutPlacesInput
+}
+
+input LocationUpdateOneWithoutScenesInput {
+  create: LocationCreateWithoutScenesInput
+  connect: LocationWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: LocationUpdateWithoutScenesDataInput
+  upsert: LocationUpsertWithoutScenesInput
+}
+
+input LocationUpdateOneWithoutUserDefaultInput {
+  create: LocationCreateWithoutUserDefaultInput
+  connect: LocationWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: LocationUpdateWithoutUserDefaultDataInput
+  upsert: LocationUpsertWithoutUserDefaultInput
+}
+
+input LocationUpdateWithoutDefaultPlaceDataInput {
+  name: String
+  places: PlaceUpdateManyWithoutLocationInput
+  user: UserUpdateOneWithoutLocationsInput
+  userDefault: UserUpdateOneWithoutDefaultLocationInput
+  scenes: SceneUpdateManyWithoutLocationInput
+}
+
+input LocationUpdateWithoutPlacesDataInput {
+  name: String
+  defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
+  user: UserUpdateOneWithoutLocationsInput
+  userDefault: UserUpdateOneWithoutDefaultLocationInput
+  scenes: SceneUpdateManyWithoutLocationInput
+}
+
+input LocationUpdateWithoutScenesDataInput {
+  name: String
+  places: PlaceUpdateManyWithoutLocationInput
+  defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
+  user: UserUpdateOneWithoutLocationsInput
+  userDefault: UserUpdateOneWithoutDefaultLocationInput
+}
+
+input LocationUpdateWithoutUserDataInput {
+  name: String
+  places: PlaceUpdateManyWithoutLocationInput
+  defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
+  userDefault: UserUpdateOneWithoutDefaultLocationInput
+  scenes: SceneUpdateManyWithoutLocationInput
+}
+
+input LocationUpdateWithoutUserDefaultDataInput {
+  name: String
+  places: PlaceUpdateManyWithoutLocationInput
+  defaultPlace: PlaceUpdateOneWithoutLocationDefaultInput
+  user: UserUpdateOneWithoutLocationsInput
+  scenes: SceneUpdateManyWithoutLocationInput
+}
+
+input LocationUpdateWithWhereUniqueWithoutUserInput {
+  where: LocationWhereUniqueInput!
+  data: LocationUpdateWithoutUserDataInput!
+}
+
+input LocationUpsertWithoutDefaultPlaceInput {
+  update: LocationUpdateWithoutDefaultPlaceDataInput!
+  create: LocationCreateWithoutDefaultPlaceInput!
+}
+
+input LocationUpsertWithoutPlacesInput {
+  update: LocationUpdateWithoutPlacesDataInput!
+  create: LocationCreateWithoutPlacesInput!
+}
+
+input LocationUpsertWithoutScenesInput {
+  update: LocationUpdateWithoutScenesDataInput!
+  create: LocationCreateWithoutScenesInput!
+}
+
+input LocationUpsertWithoutUserDefaultInput {
+  update: LocationUpdateWithoutUserDefaultDataInput!
+  create: LocationCreateWithoutUserDefaultInput!
+}
+
+input LocationUpsertWithWhereUniqueWithoutUserInput {
+  where: LocationWhereUniqueInput!
+  update: LocationUpdateWithoutUserDataInput!
+  create: LocationCreateWithoutUserInput!
+}
+
+input LocationWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LocationWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LocationWhereInput!]
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  places_every: PlaceWhereInput
+  places_some: PlaceWhereInput
+  places_none: PlaceWhereInput
+  defaultPlace: PlaceWhereInput
+  user: UserWhereInput
+  userDefault: UserWhereInput
+  scenes_every: SceneWhereInput
+  scenes_some: SceneWhereInput
+  scenes_none: SceneWhereInput
+}
+
+input LocationWhereUniqueInput {
+  id: ID
+}
+
+type Log implements Node {
+  readingTime: DateTime
+  createdAt: DateTime!
+  sensor(where: SensorWhereInput): Sensor
+  id: ID!
+  updatedAt: DateTime!
+  value: Float!
+}
+
+"""A connection to a list of items."""
+type LogConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [LogEdge]!
+  aggregate: AggregateLog!
+}
+
+input LogCreateInput {
+  readingTime: DateTime
+  value: Float!
+  sensor: SensorCreateOneWithoutLogsInput
+}
+
+input LogCreateManyWithoutSensorInput {
+  create: [LogCreateWithoutSensorInput!]
+  connect: [LogWhereUniqueInput!]
+}
+
+input LogCreateWithoutSensorInput {
+  readingTime: DateTime
+  value: Float!
+}
+
+"""An edge in a connection."""
+type LogEdge {
+  """The item at the end of the edge."""
+  node: Log!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum LogOrderByInput {
+  readingTime_ASC
+  readingTime_DESC
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  value_ASC
+  value_DESC
+}
+
+type LogPreviousValues {
+  readingTime: DateTime
+  createdAt: DateTime!
+  id: ID!
+  updatedAt: DateTime!
+  value: Float!
+}
+
+type LogSubscriptionPayload {
+  mutation: MutationType!
+  node: Log
+  updatedFields: [String!]
+  previousValues: LogPreviousValues
+}
+
+input LogSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LogSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LogSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: LogWhereInput
+}
+
+input LogUpdateInput {
+  readingTime: DateTime
+  value: Float
+  sensor: SensorUpdateOneWithoutLogsInput
+}
+
+input LogUpdateManyWithoutSensorInput {
+  create: [LogCreateWithoutSensorInput!]
+  connect: [LogWhereUniqueInput!]
+  disconnect: [LogWhereUniqueInput!]
+  delete: [LogWhereUniqueInput!]
+  update: [LogUpdateWithWhereUniqueWithoutSensorInput!]
+  upsert: [LogUpsertWithWhereUniqueWithoutSensorInput!]
+}
+
+input LogUpdateWithoutSensorDataInput {
+  readingTime: DateTime
+  value: Float
+}
+
+input LogUpdateWithWhereUniqueWithoutSensorInput {
+  where: LogWhereUniqueInput!
+  data: LogUpdateWithoutSensorDataInput!
+}
+
+input LogUpsertWithWhereUniqueWithoutSensorInput {
+  where: LogWhereUniqueInput!
+  update: LogUpdateWithoutSensorDataInput!
+  create: LogCreateWithoutSensorInput!
+}
+
+input LogWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LogWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LogWhereInput!]
+  readingTime: DateTime
+
+  """All values that are not equal to given value."""
+  readingTime_not: DateTime
+
+  """All values that are contained in given list."""
+  readingTime_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  readingTime_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  readingTime_lt: DateTime
+
+  """All values less than or equal the given value."""
+  readingTime_lte: DateTime
+
+  """All values greater than the given value."""
+  readingTime_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  readingTime_gte: DateTime
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  value: Float
+
+  """All values that are not equal to given value."""
+  value_not: Float
+
+  """All values that are contained in given list."""
+  value_in: [Float!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [Float!]
+
+  """All values less than the given value."""
+  value_lt: Float
+
+  """All values less than or equal the given value."""
+  value_lte: Float
+
+  """All values greater than the given value."""
+  value_gt: Float
+
+  """All values greater than or equal the given value."""
+  value_gte: Float
+  sensor: SensorWhereInput
+}
+
+input LogWhereUniqueInput {
+  id: ID
+}
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createFile(data: FileCreateInput!): File!
+  createUser(data: UserCreateInput!): User!
+  createDevice(data: DeviceCreateInput!): Device!
+  createDeviceModel(data: DeviceModelCreateInput!): DeviceModel!
+  createSensorType(data: SensorTypeCreateInput!): SensorType!
+  createPreset: Preset!
+  createGroup(data: GroupCreateInput!): Group!
+  createSensor(data: SensorCreateInput!): Sensor!
+  createWifiLog(data: WifiLogCreateInput!): WifiLog!
+  createWorker(data: WorkerCreateInput!): Worker!
+  createLog(data: LogCreateInput!): Log!
+  createScene(data: SceneCreateInput!): Scene!
+  createPlace(data: PlaceCreateInput!): Place!
+  createLocation(data: LocationCreateInput!): Location!
+  updateFile(data: FileUpdateInput!, where: FileWhereUniqueInput!): File
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateDevice(data: DeviceUpdateInput!, where: DeviceWhereUniqueInput!): Device
+  updateDeviceModel(data: DeviceModelUpdateInput!, where: DeviceModelWhereUniqueInput!): DeviceModel
+  updateSensorType(data: SensorTypeUpdateInput!, where: SensorTypeWhereUniqueInput!): SensorType
+  updateGroup(data: GroupUpdateInput!, where: GroupWhereUniqueInput!): Group
+  updateSensor(data: SensorUpdateInput!, where: SensorWhereUniqueInput!): Sensor
+  updateWifiLog(data: WifiLogUpdateInput!, where: WifiLogWhereUniqueInput!): WifiLog
+  updateWorker(data: WorkerUpdateInput!, where: WorkerWhereUniqueInput!): Worker
+  updateLog(data: LogUpdateInput!, where: LogWhereUniqueInput!): Log
+  updateScene(data: SceneUpdateInput!, where: SceneWhereUniqueInput!): Scene
+  updatePlace(data: PlaceUpdateInput!, where: PlaceWhereUniqueInput!): Place
+  updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
+  deleteFile(where: FileWhereUniqueInput!): File
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteDevice(where: DeviceWhereUniqueInput!): Device
+  deleteDeviceModel(where: DeviceModelWhereUniqueInput!): DeviceModel
+  deleteSensorType(where: SensorTypeWhereUniqueInput!): SensorType
+  deletePreset(where: PresetWhereUniqueInput!): Preset
+  deleteGroup(where: GroupWhereUniqueInput!): Group
+  deleteSensor(where: SensorWhereUniqueInput!): Sensor
+  deleteWifiLog(where: WifiLogWhereUniqueInput!): WifiLog
+  deleteWorker(where: WorkerWhereUniqueInput!): Worker
+  deleteLog(where: LogWhereUniqueInput!): Log
+  deleteScene(where: SceneWhereUniqueInput!): Scene
+  deletePlace(where: PlaceWhereUniqueInput!): Place
+  deleteLocation(where: LocationWhereUniqueInput!): Location
+  upsertFile(where: FileWhereUniqueInput!, create: FileCreateInput!, update: FileUpdateInput!): File!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertDevice(where: DeviceWhereUniqueInput!, create: DeviceCreateInput!, update: DeviceUpdateInput!): Device!
+  upsertDeviceModel(where: DeviceModelWhereUniqueInput!, create: DeviceModelCreateInput!, update: DeviceModelUpdateInput!): DeviceModel!
+  upsertSensorType(where: SensorTypeWhereUniqueInput!, create: SensorTypeCreateInput!, update: SensorTypeUpdateInput!): SensorType!
+  upsertGroup(where: GroupWhereUniqueInput!, create: GroupCreateInput!, update: GroupUpdateInput!): Group!
+  upsertSensor(where: SensorWhereUniqueInput!, create: SensorCreateInput!, update: SensorUpdateInput!): Sensor!
+  upsertWifiLog(where: WifiLogWhereUniqueInput!, create: WifiLogCreateInput!, update: WifiLogUpdateInput!): WifiLog!
+  upsertWorker(where: WorkerWhereUniqueInput!, create: WorkerCreateInput!, update: WorkerUpdateInput!): Worker!
+  upsertLog(where: LogWhereUniqueInput!, create: LogCreateInput!, update: LogUpdateInput!): Log!
+  upsertScene(where: SceneWhereUniqueInput!, create: SceneCreateInput!, update: SceneUpdateInput!): Scene!
+  upsertPlace(where: PlaceWhereUniqueInput!, create: PlaceCreateInput!, update: PlaceUpdateInput!): Place!
+  upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
+  updateManyFiles(data: FileUpdateInput!, where: FileWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyDevices(data: DeviceUpdateInput!, where: DeviceWhereInput): BatchPayload!
+  updateManyDeviceModels(data: DeviceModelUpdateInput!, where: DeviceModelWhereInput): BatchPayload!
+  updateManySensorTypes(data: SensorTypeUpdateInput!, where: SensorTypeWhereInput): BatchPayload!
+  updateManyGroups(data: GroupUpdateInput!, where: GroupWhereInput): BatchPayload!
+  updateManySensors(data: SensorUpdateInput!, where: SensorWhereInput): BatchPayload!
+  updateManyWifiLogs(data: WifiLogUpdateInput!, where: WifiLogWhereInput): BatchPayload!
+  updateManyWorkers(data: WorkerUpdateInput!, where: WorkerWhereInput): BatchPayload!
+  updateManyLogs(data: LogUpdateInput!, where: LogWhereInput): BatchPayload!
+  updateManyScenes(data: SceneUpdateInput!, where: SceneWhereInput): BatchPayload!
+  updateManyPlaces(data: PlaceUpdateInput!, where: PlaceWhereInput): BatchPayload!
+  updateManyLocations(data: LocationUpdateInput!, where: LocationWhereInput): BatchPayload!
+  deleteManyFiles(where: FileWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyDevices(where: DeviceWhereInput): BatchPayload!
+  deleteManyDeviceModels(where: DeviceModelWhereInput): BatchPayload!
+  deleteManySensorTypes(where: SensorTypeWhereInput): BatchPayload!
+  deleteManyPresets(where: PresetWhereInput): BatchPayload!
+  deleteManyGroups(where: GroupWhereInput): BatchPayload!
+  deleteManySensors(where: SensorWhereInput): BatchPayload!
+  deleteManyWifiLogs(where: WifiLogWhereInput): BatchPayload!
+  deleteManyWorkers(where: WorkerWhereInput): BatchPayload!
+  deleteManyLogs(where: LogWhereInput): BatchPayload!
+  deleteManyScenes(where: SceneWhereInput): BatchPayload!
+  deleteManyPlaces(where: PlaceWhereInput): BatchPayload!
+  deleteManyLocations(where: LocationWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+type Place implements Node {
+  name: String
+  id: ID!
+  location(where: LocationWhereInput): Location
+  locationDefault(where: LocationWhereInput): Location
+  devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device!]
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type PlaceConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [PlaceEdge]!
+  aggregate: AggregatePlace!
+}
+
+input PlaceCreateInput {
+  name: String
+  location: LocationCreateOneWithoutPlacesInput
+  locationDefault: LocationCreateOneWithoutDefaultPlaceInput
+  devices: DeviceCreateManyWithoutPlaceInput
+}
+
+input PlaceCreateManyWithoutLocationInput {
+  create: [PlaceCreateWithoutLocationInput!]
+  connect: [PlaceWhereUniqueInput!]
+}
+
+input PlaceCreateOneWithoutDevicesInput {
+  create: PlaceCreateWithoutDevicesInput
+  connect: PlaceWhereUniqueInput
+}
+
+input PlaceCreateOneWithoutLocationDefaultInput {
+  create: PlaceCreateWithoutLocationDefaultInput
+  connect: PlaceWhereUniqueInput
+}
+
+input PlaceCreateWithoutDevicesInput {
+  name: String
+  location: LocationCreateOneWithoutPlacesInput
+  locationDefault: LocationCreateOneWithoutDefaultPlaceInput
+}
+
+input PlaceCreateWithoutLocationDefaultInput {
+  name: String
+  location: LocationCreateOneWithoutPlacesInput
+  devices: DeviceCreateManyWithoutPlaceInput
+}
+
+input PlaceCreateWithoutLocationInput {
+  name: String
+  locationDefault: LocationCreateOneWithoutDefaultPlaceInput
+  devices: DeviceCreateManyWithoutPlaceInput
+}
+
+"""An edge in a connection."""
+type PlaceEdge {
+  """The item at the end of the edge."""
+  node: Place!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum PlaceOrderByInput {
+  name_ASC
+  name_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type PlacePreviousValues {
+  name: String
+  id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type PlaceSubscriptionPayload {
+  mutation: MutationType!
+  node: Place
+  updatedFields: [String!]
+  previousValues: PlacePreviousValues
+}
+
+input PlaceSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PlaceSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PlaceSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: PlaceWhereInput
+}
+
+input PlaceUpdateInput {
+  name: String
+  location: LocationUpdateOneWithoutPlacesInput
+  locationDefault: LocationUpdateOneWithoutDefaultPlaceInput
+  devices: DeviceUpdateManyWithoutPlaceInput
+}
+
+input PlaceUpdateManyWithoutLocationInput {
+  create: [PlaceCreateWithoutLocationInput!]
+  connect: [PlaceWhereUniqueInput!]
+  disconnect: [PlaceWhereUniqueInput!]
+  delete: [PlaceWhereUniqueInput!]
+  update: [PlaceUpdateWithWhereUniqueWithoutLocationInput!]
+  upsert: [PlaceUpsertWithWhereUniqueWithoutLocationInput!]
+}
+
+input PlaceUpdateOneWithoutDevicesInput {
+  create: PlaceCreateWithoutDevicesInput
+  connect: PlaceWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: PlaceUpdateWithoutDevicesDataInput
+  upsert: PlaceUpsertWithoutDevicesInput
+}
+
+input PlaceUpdateOneWithoutLocationDefaultInput {
+  create: PlaceCreateWithoutLocationDefaultInput
+  connect: PlaceWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: PlaceUpdateWithoutLocationDefaultDataInput
+  upsert: PlaceUpsertWithoutLocationDefaultInput
+}
+
+input PlaceUpdateWithoutDevicesDataInput {
+  name: String
+  location: LocationUpdateOneWithoutPlacesInput
+  locationDefault: LocationUpdateOneWithoutDefaultPlaceInput
+}
+
+input PlaceUpdateWithoutLocationDataInput {
+  name: String
+  locationDefault: LocationUpdateOneWithoutDefaultPlaceInput
+  devices: DeviceUpdateManyWithoutPlaceInput
+}
+
+input PlaceUpdateWithoutLocationDefaultDataInput {
+  name: String
+  location: LocationUpdateOneWithoutPlacesInput
+  devices: DeviceUpdateManyWithoutPlaceInput
+}
+
+input PlaceUpdateWithWhereUniqueWithoutLocationInput {
+  where: PlaceWhereUniqueInput!
+  data: PlaceUpdateWithoutLocationDataInput!
+}
+
+input PlaceUpsertWithoutDevicesInput {
+  update: PlaceUpdateWithoutDevicesDataInput!
+  create: PlaceCreateWithoutDevicesInput!
+}
+
+input PlaceUpsertWithoutLocationDefaultInput {
+  update: PlaceUpdateWithoutLocationDefaultDataInput!
+  create: PlaceCreateWithoutLocationDefaultInput!
+}
+
+input PlaceUpsertWithWhereUniqueWithoutLocationInput {
+  where: PlaceWhereUniqueInput!
+  update: PlaceUpdateWithoutLocationDataInput!
+  create: PlaceCreateWithoutLocationInput!
+}
+
+input PlaceWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PlaceWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PlaceWhereInput!]
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  location: LocationWhereInput
+  locationDefault: LocationWhereInput
+  devices_every: DeviceWhereInput
+  devices_some: DeviceWhereInput
+  devices_none: DeviceWhereInput
+}
+
+input PlaceWhereUniqueInput {
+  id: ID
+}
+
+type Preset implements Node {
+  createdAt: DateTime!
+  id: ID!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type PresetConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [PresetEdge]!
+  aggregate: AggregatePreset!
+}
+
+"""An edge in a connection."""
+type PresetEdge {
+  """The item at the end of the edge."""
+  node: Preset!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum PresetOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type PresetPreviousValues {
+  createdAt: DateTime!
+  id: ID!
+  updatedAt: DateTime!
+}
+
+type PresetSubscriptionPayload {
+  mutation: MutationType!
+  node: Preset
+  updatedFields: [String!]
+  previousValues: PresetPreviousValues
+}
+
+input PresetSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PresetSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PresetSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: PresetWhereInput
+}
+
+input PresetWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PresetWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PresetWhereInput!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+}
+
+input PresetWhereUniqueInput {
+  id: ID
+}
+
+type Query {
+  files(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [File]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device]!
+  deviceModels(where: DeviceModelWhereInput, orderBy: DeviceModelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DeviceModel]!
+  sensorTypes(where: SensorTypeWhereInput, orderBy: SensorTypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SensorType]!
+  presets(where: PresetWhereInput, orderBy: PresetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Preset]!
+  groups(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Group]!
+  sensors(where: SensorWhereInput, orderBy: SensorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sensor]!
+  wifiLogs(where: WifiLogWhereInput, orderBy: WifiLogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [WifiLog]!
+  workers(where: WorkerWhereInput, orderBy: WorkerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Worker]!
+  logs(where: LogWhereInput, orderBy: LogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Log]!
+  scenes(where: SceneWhereInput, orderBy: SceneOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Scene]!
+  places(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Place]!
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
+  file(where: FileWhereUniqueInput!): File
+  user(where: UserWhereUniqueInput!): User
+  device(where: DeviceWhereUniqueInput!): Device
+  deviceModel(where: DeviceModelWhereUniqueInput!): DeviceModel
+  sensorType(where: SensorTypeWhereUniqueInput!): SensorType
+  preset(where: PresetWhereUniqueInput!): Preset
+  group(where: GroupWhereUniqueInput!): Group
+  sensor(where: SensorWhereUniqueInput!): Sensor
+  wifiLog(where: WifiLogWhereUniqueInput!): WifiLog
+  worker(where: WorkerWhereUniqueInput!): Worker
+  log(where: LogWhereUniqueInput!): Log
+  scene(where: SceneWhereUniqueInput!): Scene
+  place(where: PlaceWhereUniqueInput!): Place
+  location(where: LocationWhereUniqueInput!): Location
+  filesConnection(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  devicesConnection(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DeviceConnection!
+  deviceModelsConnection(where: DeviceModelWhereInput, orderBy: DeviceModelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DeviceModelConnection!
+  sensorTypesConnection(where: SensorTypeWhereInput, orderBy: SensorTypeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SensorTypeConnection!
+  presetsConnection(where: PresetWhereInput, orderBy: PresetOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PresetConnection!
+  groupsConnection(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GroupConnection!
+  sensorsConnection(where: SensorWhereInput, orderBy: SensorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SensorConnection!
+  wifiLogsConnection(where: WifiLogWhereInput, orderBy: WifiLogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): WifiLogConnection!
+  workersConnection(where: WorkerWhereInput, orderBy: WorkerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): WorkerConnection!
+  logsConnection(where: LogWhereInput, orderBy: LogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LogConnection!
+  scenesConnection(where: SceneWhereInput, orderBy: SceneOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SceneConnection!
+  placesConnection(where: PlaceWhereInput, orderBy: PlaceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PlaceConnection!
+  locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Scene implements Node {
+  name: String
+  id: ID!
+  location(where: LocationWhereInput): Location
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type SceneConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [SceneEdge]!
+  aggregate: AggregateScene!
+}
+
+input SceneCreateInput {
+  name: String
+  location: LocationCreateOneWithoutScenesInput
+}
+
+input SceneCreateManyWithoutLocationInput {
+  create: [SceneCreateWithoutLocationInput!]
+  connect: [SceneWhereUniqueInput!]
+}
+
+input SceneCreateWithoutLocationInput {
+  name: String
+}
+
+"""An edge in a connection."""
+type SceneEdge {
+  """The item at the end of the edge."""
+  node: Scene!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum SceneOrderByInput {
+  name_ASC
+  name_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ScenePreviousValues {
+  name: String
+  id: ID!
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type SceneSubscriptionPayload {
+  mutation: MutationType!
+  node: Scene
+  updatedFields: [String!]
+  previousValues: ScenePreviousValues
+}
+
+input SceneSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [SceneSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SceneSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: SceneWhereInput
+}
+
+input SceneUpdateInput {
+  name: String
+  location: LocationUpdateOneWithoutScenesInput
+}
+
+input SceneUpdateManyWithoutLocationInput {
+  create: [SceneCreateWithoutLocationInput!]
+  connect: [SceneWhereUniqueInput!]
+  disconnect: [SceneWhereUniqueInput!]
+  delete: [SceneWhereUniqueInput!]
+  update: [SceneUpdateWithWhereUniqueWithoutLocationInput!]
+  upsert: [SceneUpsertWithWhereUniqueWithoutLocationInput!]
+}
+
+input SceneUpdateWithoutLocationDataInput {
+  name: String
+}
+
+input SceneUpdateWithWhereUniqueWithoutLocationInput {
+  where: SceneWhereUniqueInput!
+  data: SceneUpdateWithoutLocationDataInput!
+}
+
+input SceneUpsertWithWhereUniqueWithoutLocationInput {
+  where: SceneWhereUniqueInput!
+  update: SceneUpdateWithoutLocationDataInput!
+  create: SceneCreateWithoutLocationInput!
+}
+
+input SceneWhereInput {
+  """Logical AND on all given filters."""
+  AND: [SceneWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SceneWhereInput!]
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  location: LocationWhereInput
+}
+
+input SceneWhereUniqueInput {
+  id: ID
+}
+
+type Sensor implements Node {
+  createdAt: DateTime!
+  device(where: DeviceWhereInput): Device
+  logs(where: LogWhereInput, orderBy: LogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Log!]
+  id: ID!
+  updatedAt: DateTime!
+  sensorType(where: SensorTypeWhereInput): SensorType
+}
+
+"""A connection to a list of items."""
+type SensorConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [SensorEdge]!
+  aggregate: AggregateSensor!
+}
+
+input SensorCreateInput {
+  device: DeviceCreateOneWithoutSensorsInput
+  logs: LogCreateManyWithoutSensorInput
+  sensorType: SensorTypeCreateOneWithoutSensorsInput
+}
+
+input SensorCreateManyWithoutDeviceInput {
+  create: [SensorCreateWithoutDeviceInput!]
+  connect: [SensorWhereUniqueInput!]
+}
+
+input SensorCreateManyWithoutSensorTypeInput {
+  create: [SensorCreateWithoutSensorTypeInput!]
+  connect: [SensorWhereUniqueInput!]
+}
+
+input SensorCreateOneWithoutLogsInput {
+  create: SensorCreateWithoutLogsInput
+  connect: SensorWhereUniqueInput
+}
+
+input SensorCreateWithoutDeviceInput {
+  logs: LogCreateManyWithoutSensorInput
+  sensorType: SensorTypeCreateOneWithoutSensorsInput
+}
+
+input SensorCreateWithoutLogsInput {
+  device: DeviceCreateOneWithoutSensorsInput
+  sensorType: SensorTypeCreateOneWithoutSensorsInput
+}
+
+input SensorCreateWithoutSensorTypeInput {
+  device: DeviceCreateOneWithoutSensorsInput
+  logs: LogCreateManyWithoutSensorInput
+}
+
+"""An edge in a connection."""
+type SensorEdge {
+  """The item at the end of the edge."""
+  node: Sensor!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum SensorOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type SensorPreviousValues {
+  createdAt: DateTime!
+  id: ID!
+  updatedAt: DateTime!
+}
+
+type SensorSubscriptionPayload {
+  mutation: MutationType!
+  node: Sensor
+  updatedFields: [String!]
+  previousValues: SensorPreviousValues
+}
+
+input SensorSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [SensorSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SensorSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: SensorWhereInput
+}
+
+type SensorType implements Node {
+  createdAt: DateTime!
+  name: String
+  id: ID!
+  updatedAt: DateTime!
+  sensors(where: SensorWhereInput, orderBy: SensorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sensor!]
+  deviceModels(where: DeviceModelWhereInput, orderBy: DeviceModelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DeviceModel!]
+}
+
+"""A connection to a list of items."""
+type SensorTypeConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [SensorTypeEdge]!
+  aggregate: AggregateSensorType!
+}
+
+input SensorTypeCreateInput {
+  name: String
+  sensors: SensorCreateManyWithoutSensorTypeInput
+  deviceModels: DeviceModelCreateManyWithoutSensorTypesInput
+}
+
+input SensorTypeCreateManyWithoutDeviceModelsInput {
+  create: [SensorTypeCreateWithoutDeviceModelsInput!]
+  connect: [SensorTypeWhereUniqueInput!]
+}
+
+input SensorTypeCreateOneWithoutSensorsInput {
+  create: SensorTypeCreateWithoutSensorsInput
+  connect: SensorTypeWhereUniqueInput
+}
+
+input SensorTypeCreateWithoutDeviceModelsInput {
+  name: String
+  sensors: SensorCreateManyWithoutSensorTypeInput
+}
+
+input SensorTypeCreateWithoutSensorsInput {
+  name: String
+  deviceModels: DeviceModelCreateManyWithoutSensorTypesInput
+}
+
+"""An edge in a connection."""
+type SensorTypeEdge {
+  """The item at the end of the edge."""
+  node: SensorType!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum SensorTypeOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  name_ASC
+  name_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type SensorTypePreviousValues {
+  createdAt: DateTime!
+  name: String
+  id: ID!
+  updatedAt: DateTime!
+}
+
+type SensorTypeSubscriptionPayload {
+  mutation: MutationType!
+  node: SensorType
+  updatedFields: [String!]
+  previousValues: SensorTypePreviousValues
+}
+
+input SensorTypeSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [SensorTypeSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SensorTypeSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: SensorTypeWhereInput
+}
+
+input SensorTypeUpdateInput {
+  name: String
+  sensors: SensorUpdateManyWithoutSensorTypeInput
+  deviceModels: DeviceModelUpdateManyWithoutSensorTypesInput
+}
+
+input SensorTypeUpdateManyWithoutDeviceModelsInput {
+  create: [SensorTypeCreateWithoutDeviceModelsInput!]
+  connect: [SensorTypeWhereUniqueInput!]
+  disconnect: [SensorTypeWhereUniqueInput!]
+  delete: [SensorTypeWhereUniqueInput!]
+  update: [SensorTypeUpdateWithWhereUniqueWithoutDeviceModelsInput!]
+  upsert: [SensorTypeUpsertWithWhereUniqueWithoutDeviceModelsInput!]
+}
+
+input SensorTypeUpdateOneWithoutSensorsInput {
+  create: SensorTypeCreateWithoutSensorsInput
+  connect: SensorTypeWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: SensorTypeUpdateWithoutSensorsDataInput
+  upsert: SensorTypeUpsertWithoutSensorsInput
+}
+
+input SensorTypeUpdateWithoutDeviceModelsDataInput {
+  name: String
+  sensors: SensorUpdateManyWithoutSensorTypeInput
+}
+
+input SensorTypeUpdateWithoutSensorsDataInput {
+  name: String
+  deviceModels: DeviceModelUpdateManyWithoutSensorTypesInput
+}
+
+input SensorTypeUpdateWithWhereUniqueWithoutDeviceModelsInput {
+  where: SensorTypeWhereUniqueInput!
+  data: SensorTypeUpdateWithoutDeviceModelsDataInput!
+}
+
+input SensorTypeUpsertWithoutSensorsInput {
+  update: SensorTypeUpdateWithoutSensorsDataInput!
+  create: SensorTypeCreateWithoutSensorsInput!
+}
+
+input SensorTypeUpsertWithWhereUniqueWithoutDeviceModelsInput {
+  where: SensorTypeWhereUniqueInput!
+  update: SensorTypeUpdateWithoutDeviceModelsDataInput!
+  create: SensorTypeCreateWithoutDeviceModelsInput!
+}
+
+input SensorTypeWhereInput {
+  """Logical AND on all given filters."""
+  AND: [SensorTypeWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SensorTypeWhereInput!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  sensors_every: SensorWhereInput
+  sensors_some: SensorWhereInput
+  sensors_none: SensorWhereInput
+  deviceModels_every: DeviceModelWhereInput
+  deviceModels_some: DeviceModelWhereInput
+  deviceModels_none: DeviceModelWhereInput
+}
+
+input SensorTypeWhereUniqueInput {
+  id: ID
+}
+
+input SensorUpdateInput {
+  device: DeviceUpdateOneWithoutSensorsInput
+  logs: LogUpdateManyWithoutSensorInput
+  sensorType: SensorTypeUpdateOneWithoutSensorsInput
+}
+
+input SensorUpdateManyWithoutDeviceInput {
+  create: [SensorCreateWithoutDeviceInput!]
+  connect: [SensorWhereUniqueInput!]
+  disconnect: [SensorWhereUniqueInput!]
+  delete: [SensorWhereUniqueInput!]
+  update: [SensorUpdateWithWhereUniqueWithoutDeviceInput!]
+  upsert: [SensorUpsertWithWhereUniqueWithoutDeviceInput!]
+}
+
+input SensorUpdateManyWithoutSensorTypeInput {
+  create: [SensorCreateWithoutSensorTypeInput!]
+  connect: [SensorWhereUniqueInput!]
+  disconnect: [SensorWhereUniqueInput!]
+  delete: [SensorWhereUniqueInput!]
+  update: [SensorUpdateWithWhereUniqueWithoutSensorTypeInput!]
+  upsert: [SensorUpsertWithWhereUniqueWithoutSensorTypeInput!]
+}
+
+input SensorUpdateOneWithoutLogsInput {
+  create: SensorCreateWithoutLogsInput
+  connect: SensorWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: SensorUpdateWithoutLogsDataInput
+  upsert: SensorUpsertWithoutLogsInput
+}
+
+input SensorUpdateWithoutDeviceDataInput {
+  logs: LogUpdateManyWithoutSensorInput
+  sensorType: SensorTypeUpdateOneWithoutSensorsInput
+}
+
+input SensorUpdateWithoutLogsDataInput {
+  device: DeviceUpdateOneWithoutSensorsInput
+  sensorType: SensorTypeUpdateOneWithoutSensorsInput
+}
+
+input SensorUpdateWithoutSensorTypeDataInput {
+  device: DeviceUpdateOneWithoutSensorsInput
+  logs: LogUpdateManyWithoutSensorInput
+}
+
+input SensorUpdateWithWhereUniqueWithoutDeviceInput {
+  where: SensorWhereUniqueInput!
+  data: SensorUpdateWithoutDeviceDataInput!
+}
+
+input SensorUpdateWithWhereUniqueWithoutSensorTypeInput {
+  where: SensorWhereUniqueInput!
+  data: SensorUpdateWithoutSensorTypeDataInput!
+}
+
+input SensorUpsertWithoutLogsInput {
+  update: SensorUpdateWithoutLogsDataInput!
+  create: SensorCreateWithoutLogsInput!
+}
+
+input SensorUpsertWithWhereUniqueWithoutDeviceInput {
+  where: SensorWhereUniqueInput!
+  update: SensorUpdateWithoutDeviceDataInput!
+  create: SensorCreateWithoutDeviceInput!
+}
+
+input SensorUpsertWithWhereUniqueWithoutSensorTypeInput {
+  where: SensorWhereUniqueInput!
+  update: SensorUpdateWithoutSensorTypeDataInput!
+  create: SensorCreateWithoutSensorTypeInput!
+}
+
+input SensorWhereInput {
+  """Logical AND on all given filters."""
+  AND: [SensorWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SensorWhereInput!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  device: DeviceWhereInput
+  logs_every: LogWhereInput
+  logs_some: LogWhereInput
+  logs_none: LogWhereInput
+  sensorType: SensorTypeWhereInput
+}
+
+input SensorWhereUniqueInput {
+  id: ID
+}
+
+type Subscription {
+  file(where: FileSubscriptionWhereInput): FileSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  device(where: DeviceSubscriptionWhereInput): DeviceSubscriptionPayload
+  deviceModel(where: DeviceModelSubscriptionWhereInput): DeviceModelSubscriptionPayload
+  sensorType(where: SensorTypeSubscriptionWhereInput): SensorTypeSubscriptionPayload
+  preset(where: PresetSubscriptionWhereInput): PresetSubscriptionPayload
+  group(where: GroupSubscriptionWhereInput): GroupSubscriptionPayload
+  sensor(where: SensorSubscriptionWhereInput): SensorSubscriptionPayload
+  wifiLog(where: WifiLogSubscriptionWhereInput): WifiLogSubscriptionPayload
+  worker(where: WorkerSubscriptionWhereInput): WorkerSubscriptionPayload
+  log(where: LogSubscriptionWhereInput): LogSubscriptionPayload
+  scene(where: SceneSubscriptionWhereInput): SceneSubscriptionPayload
+  place(where: PlaceSubscriptionWhereInput): PlaceSubscriptionPayload
+  location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
+}
+
+type User implements Node {
+  createdAt: DateTime!
+  id: ID!
+  updatedAt: DateTime!
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  devices(where: DeviceWhereInput, orderBy: DeviceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Device!]
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
+  defaultLocation(where: LocationWhereInput): Location
+}
+
+"""A connection to a list of items."""
+type UserConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+input UserCreateInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  devices: DeviceCreateManyWithoutUserInput
+  locations: LocationCreateManyWithoutUserInput
+  defaultLocation: LocationCreateOneWithoutUserDefaultInput
+}
+
+input UserCreateOneWithoutDefaultLocationInput {
+  create: UserCreateWithoutDefaultLocationInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutDevicesInput {
+  create: UserCreateWithoutDevicesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutLocationsInput {
+  create: UserCreateWithoutLocationsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutDefaultLocationInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  devices: DeviceCreateManyWithoutUserInput
+  locations: LocationCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutDevicesInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  locations: LocationCreateManyWithoutUserInput
+  defaultLocation: LocationCreateOneWithoutUserDefaultInput
+}
+
+input UserCreateWithoutLocationsInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  devices: DeviceCreateManyWithoutUserInput
+  defaultLocation: LocationCreateOneWithoutUserDefaultInput
+}
+
+"""An edge in a connection."""
+type UserEdge {
+  """The item at the end of the edge."""
+  node: User!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum UserOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  firstName_ASC
+  firstName_DESC
+  lastName_ASC
+  lastName_DESC
+  email_ASC
+  email_DESC
+  password_ASC
+  password_DESC
+}
+
+type UserPreviousValues {
+  createdAt: DateTime!
+  id: ID!
+  updatedAt: DateTime!
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+}
+
+input UserUpdateInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  devices: DeviceUpdateManyWithoutUserInput
+  locations: LocationUpdateManyWithoutUserInput
+  defaultLocation: LocationUpdateOneWithoutUserDefaultInput
+}
+
+input UserUpdateOneWithoutDefaultLocationInput {
+  create: UserCreateWithoutDefaultLocationInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutDefaultLocationDataInput
+  upsert: UserUpsertWithoutDefaultLocationInput
+}
+
+input UserUpdateOneWithoutDevicesInput {
+  create: UserCreateWithoutDevicesInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutDevicesDataInput
+  upsert: UserUpsertWithoutDevicesInput
+}
+
+input UserUpdateOneWithoutLocationsInput {
+  create: UserCreateWithoutLocationsInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutLocationsDataInput
+  upsert: UserUpsertWithoutLocationsInput
+}
+
+input UserUpdateWithoutDefaultLocationDataInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  devices: DeviceUpdateManyWithoutUserInput
+  locations: LocationUpdateManyWithoutUserInput
+}
+
+input UserUpdateWithoutDevicesDataInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  locations: LocationUpdateManyWithoutUserInput
+  defaultLocation: LocationUpdateOneWithoutUserDefaultInput
+}
+
+input UserUpdateWithoutLocationsDataInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  devices: DeviceUpdateManyWithoutUserInput
+  defaultLocation: LocationUpdateOneWithoutUserDefaultInput
+}
+
+input UserUpsertWithoutDefaultLocationInput {
+  update: UserUpdateWithoutDefaultLocationDataInput!
+  create: UserCreateWithoutDefaultLocationInput!
+}
+
+input UserUpsertWithoutDevicesInput {
+  update: UserUpdateWithoutDevicesDataInput!
+  create: UserCreateWithoutDevicesInput!
+}
+
+input UserUpsertWithoutLocationsInput {
+  update: UserUpdateWithoutLocationsDataInput!
+  create: UserCreateWithoutLocationsInput!
+}
+
+input UserWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserWhereInput!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  firstName: String
+
+  """All values that are not equal to given value."""
+  firstName_not: String
+
+  """All values that are contained in given list."""
+  firstName_in: [String!]
+
+  """All values that are not contained in given list."""
+  firstName_not_in: [String!]
+
+  """All values less than the given value."""
+  firstName_lt: String
+
+  """All values less than or equal the given value."""
+  firstName_lte: String
+
+  """All values greater than the given value."""
+  firstName_gt: String
+
+  """All values greater than or equal the given value."""
+  firstName_gte: String
+
+  """All values containing the given string."""
+  firstName_contains: String
+
+  """All values not containing the given string."""
+  firstName_not_contains: String
+
+  """All values starting with the given string."""
+  firstName_starts_with: String
+
+  """All values not starting with the given string."""
+  firstName_not_starts_with: String
+
+  """All values ending with the given string."""
+  firstName_ends_with: String
+
+  """All values not ending with the given string."""
+  firstName_not_ends_with: String
+  lastName: String
+
+  """All values that are not equal to given value."""
+  lastName_not: String
+
+  """All values that are contained in given list."""
+  lastName_in: [String!]
+
+  """All values that are not contained in given list."""
+  lastName_not_in: [String!]
+
+  """All values less than the given value."""
+  lastName_lt: String
+
+  """All values less than or equal the given value."""
+  lastName_lte: String
+
+  """All values greater than the given value."""
+  lastName_gt: String
+
+  """All values greater than or equal the given value."""
+  lastName_gte: String
+
+  """All values containing the given string."""
+  lastName_contains: String
+
+  """All values not containing the given string."""
+  lastName_not_contains: String
+
+  """All values starting with the given string."""
+  lastName_starts_with: String
+
+  """All values not starting with the given string."""
+  lastName_not_starts_with: String
+
+  """All values ending with the given string."""
+  lastName_ends_with: String
+
+  """All values not ending with the given string."""
+  lastName_not_ends_with: String
+  email: String
+
+  """All values that are not equal to given value."""
+  email_not: String
+
+  """All values that are contained in given list."""
+  email_in: [String!]
+
+  """All values that are not contained in given list."""
+  email_not_in: [String!]
+
+  """All values less than the given value."""
+  email_lt: String
+
+  """All values less than or equal the given value."""
+  email_lte: String
+
+  """All values greater than the given value."""
+  email_gt: String
+
+  """All values greater than or equal the given value."""
+  email_gte: String
+
+  """All values containing the given string."""
+  email_contains: String
+
+  """All values not containing the given string."""
+  email_not_contains: String
+
+  """All values starting with the given string."""
+  email_starts_with: String
+
+  """All values not starting with the given string."""
+  email_not_starts_with: String
+
+  """All values ending with the given string."""
+  email_ends_with: String
+
+  """All values not ending with the given string."""
+  email_not_ends_with: String
+  password: String
+
+  """All values that are not equal to given value."""
+  password_not: String
+
+  """All values that are contained in given list."""
+  password_in: [String!]
+
+  """All values that are not contained in given list."""
+  password_not_in: [String!]
+
+  """All values less than the given value."""
+  password_lt: String
+
+  """All values less than or equal the given value."""
+  password_lte: String
+
+  """All values greater than the given value."""
+  password_gt: String
+
+  """All values greater than or equal the given value."""
+  password_gte: String
+
+  """All values containing the given string."""
+  password_contains: String
+
+  """All values not containing the given string."""
+  password_not_contains: String
+
+  """All values starting with the given string."""
+  password_starts_with: String
+
+  """All values not starting with the given string."""
+  password_not_starts_with: String
+
+  """All values ending with the given string."""
+  password_ends_with: String
+
+  """All values not ending with the given string."""
+  password_not_ends_with: String
+  devices_every: DeviceWhereInput
+  devices_some: DeviceWhereInput
+  devices_none: DeviceWhereInput
+  locations_every: LocationWhereInput
+  locations_some: LocationWhereInput
+  locations_none: LocationWhereInput
+  defaultLocation: LocationWhereInput
+}
+
+input UserWhereUniqueInput {
+  id: ID
+  email: String
+}
+
+type WifiLog implements Node {
+  createdAt: DateTime!
+  device(where: DeviceWhereInput): Device
+  hostname: String
+  address: String
+  netmask: String
+  gateway: String
+  mac: String
+  rssi: Float
+  id: ID!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type WifiLogConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [WifiLogEdge]!
+  aggregate: AggregateWifiLog!
+}
+
+input WifiLogCreateInput {
+  hostname: String
+  address: String
+  netmask: String
+  gateway: String
+  mac: String
+  rssi: Float
+  device: DeviceCreateOneWithoutWifiLogsInput
+}
+
+input WifiLogCreateManyWithoutDeviceInput {
+  create: [WifiLogCreateWithoutDeviceInput!]
+  connect: [WifiLogWhereUniqueInput!]
+}
+
+input WifiLogCreateWithoutDeviceInput {
+  hostname: String
+  address: String
+  netmask: String
+  gateway: String
+  mac: String
+  rssi: Float
+}
+
+"""An edge in a connection."""
+type WifiLogEdge {
+  """The item at the end of the edge."""
+  node: WifiLog!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum WifiLogOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  hostname_ASC
+  hostname_DESC
+  address_ASC
+  address_DESC
+  netmask_ASC
+  netmask_DESC
+  gateway_ASC
+  gateway_DESC
+  mac_ASC
+  mac_DESC
+  rssi_ASC
+  rssi_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type WifiLogPreviousValues {
+  createdAt: DateTime!
+  hostname: String
+  address: String
+  netmask: String
+  gateway: String
+  mac: String
+  rssi: Float
+  id: ID!
+  updatedAt: DateTime!
+}
+
+type WifiLogSubscriptionPayload {
+  mutation: MutationType!
+  node: WifiLog
+  updatedFields: [String!]
+  previousValues: WifiLogPreviousValues
+}
+
+input WifiLogSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WifiLogSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WifiLogSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: WifiLogWhereInput
+}
+
+input WifiLogUpdateInput {
+  hostname: String
+  address: String
+  netmask: String
+  gateway: String
+  mac: String
+  rssi: Float
+  device: DeviceUpdateOneWithoutWifiLogsInput
+}
+
+input WifiLogUpdateManyWithoutDeviceInput {
+  create: [WifiLogCreateWithoutDeviceInput!]
+  connect: [WifiLogWhereUniqueInput!]
+  disconnect: [WifiLogWhereUniqueInput!]
+  delete: [WifiLogWhereUniqueInput!]
+  update: [WifiLogUpdateWithWhereUniqueWithoutDeviceInput!]
+  upsert: [WifiLogUpsertWithWhereUniqueWithoutDeviceInput!]
+}
+
+input WifiLogUpdateWithoutDeviceDataInput {
+  hostname: String
+  address: String
+  netmask: String
+  gateway: String
+  mac: String
+  rssi: Float
+}
+
+input WifiLogUpdateWithWhereUniqueWithoutDeviceInput {
+  where: WifiLogWhereUniqueInput!
+  data: WifiLogUpdateWithoutDeviceDataInput!
+}
+
+input WifiLogUpsertWithWhereUniqueWithoutDeviceInput {
+  where: WifiLogWhereUniqueInput!
+  update: WifiLogUpdateWithoutDeviceDataInput!
+  create: WifiLogCreateWithoutDeviceInput!
+}
+
+input WifiLogWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WifiLogWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WifiLogWhereInput!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  hostname: String
+
+  """All values that are not equal to given value."""
+  hostname_not: String
+
+  """All values that are contained in given list."""
+  hostname_in: [String!]
+
+  """All values that are not contained in given list."""
+  hostname_not_in: [String!]
+
+  """All values less than the given value."""
+  hostname_lt: String
+
+  """All values less than or equal the given value."""
+  hostname_lte: String
+
+  """All values greater than the given value."""
+  hostname_gt: String
+
+  """All values greater than or equal the given value."""
+  hostname_gte: String
+
+  """All values containing the given string."""
+  hostname_contains: String
+
+  """All values not containing the given string."""
+  hostname_not_contains: String
+
+  """All values starting with the given string."""
+  hostname_starts_with: String
+
+  """All values not starting with the given string."""
+  hostname_not_starts_with: String
+
+  """All values ending with the given string."""
+  hostname_ends_with: String
+
+  """All values not ending with the given string."""
+  hostname_not_ends_with: String
+  address: String
+
+  """All values that are not equal to given value."""
+  address_not: String
+
+  """All values that are contained in given list."""
+  address_in: [String!]
+
+  """All values that are not contained in given list."""
+  address_not_in: [String!]
+
+  """All values less than the given value."""
+  address_lt: String
+
+  """All values less than or equal the given value."""
+  address_lte: String
+
+  """All values greater than the given value."""
+  address_gt: String
+
+  """All values greater than or equal the given value."""
+  address_gte: String
+
+  """All values containing the given string."""
+  address_contains: String
+
+  """All values not containing the given string."""
+  address_not_contains: String
+
+  """All values starting with the given string."""
+  address_starts_with: String
+
+  """All values not starting with the given string."""
+  address_not_starts_with: String
+
+  """All values ending with the given string."""
+  address_ends_with: String
+
+  """All values not ending with the given string."""
+  address_not_ends_with: String
+  netmask: String
+
+  """All values that are not equal to given value."""
+  netmask_not: String
+
+  """All values that are contained in given list."""
+  netmask_in: [String!]
+
+  """All values that are not contained in given list."""
+  netmask_not_in: [String!]
+
+  """All values less than the given value."""
+  netmask_lt: String
+
+  """All values less than or equal the given value."""
+  netmask_lte: String
+
+  """All values greater than the given value."""
+  netmask_gt: String
+
+  """All values greater than or equal the given value."""
+  netmask_gte: String
+
+  """All values containing the given string."""
+  netmask_contains: String
+
+  """All values not containing the given string."""
+  netmask_not_contains: String
+
+  """All values starting with the given string."""
+  netmask_starts_with: String
+
+  """All values not starting with the given string."""
+  netmask_not_starts_with: String
+
+  """All values ending with the given string."""
+  netmask_ends_with: String
+
+  """All values not ending with the given string."""
+  netmask_not_ends_with: String
+  gateway: String
+
+  """All values that are not equal to given value."""
+  gateway_not: String
+
+  """All values that are contained in given list."""
+  gateway_in: [String!]
+
+  """All values that are not contained in given list."""
+  gateway_not_in: [String!]
+
+  """All values less than the given value."""
+  gateway_lt: String
+
+  """All values less than or equal the given value."""
+  gateway_lte: String
+
+  """All values greater than the given value."""
+  gateway_gt: String
+
+  """All values greater than or equal the given value."""
+  gateway_gte: String
+
+  """All values containing the given string."""
+  gateway_contains: String
+
+  """All values not containing the given string."""
+  gateway_not_contains: String
+
+  """All values starting with the given string."""
+  gateway_starts_with: String
+
+  """All values not starting with the given string."""
+  gateway_not_starts_with: String
+
+  """All values ending with the given string."""
+  gateway_ends_with: String
+
+  """All values not ending with the given string."""
+  gateway_not_ends_with: String
+  mac: String
+
+  """All values that are not equal to given value."""
+  mac_not: String
+
+  """All values that are contained in given list."""
+  mac_in: [String!]
+
+  """All values that are not contained in given list."""
+  mac_not_in: [String!]
+
+  """All values less than the given value."""
+  mac_lt: String
+
+  """All values less than or equal the given value."""
+  mac_lte: String
+
+  """All values greater than the given value."""
+  mac_gt: String
+
+  """All values greater than or equal the given value."""
+  mac_gte: String
+
+  """All values containing the given string."""
+  mac_contains: String
+
+  """All values not containing the given string."""
+  mac_not_contains: String
+
+  """All values starting with the given string."""
+  mac_starts_with: String
+
+  """All values not starting with the given string."""
+  mac_not_starts_with: String
+
+  """All values ending with the given string."""
+  mac_ends_with: String
+
+  """All values not ending with the given string."""
+  mac_not_ends_with: String
+  rssi: Float
+
+  """All values that are not equal to given value."""
+  rssi_not: Float
+
+  """All values that are contained in given list."""
+  rssi_in: [Float!]
+
+  """All values that are not contained in given list."""
+  rssi_not_in: [Float!]
+
+  """All values less than the given value."""
+  rssi_lt: Float
+
+  """All values less than or equal the given value."""
+  rssi_lte: Float
+
+  """All values greater than the given value."""
+  rssi_gt: Float
+
+  """All values greater than or equal the given value."""
+  rssi_gte: Float
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  device: DeviceWhereInput
+}
+
+input WifiLogWhereUniqueInput {
+  id: ID
+}
+
+type Worker implements Node {
+  createdAt: DateTime!
+  name: String
+  device(where: DeviceWhereInput): Device
+  id: ID!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type WorkerConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [WorkerEdge]!
+  aggregate: AggregateWorker!
+}
+
+input WorkerCreateInput {
+  name: String
+  device: DeviceCreateOneWithoutWorkersInput
+}
+
+input WorkerCreateManyWithoutDeviceInput {
+  create: [WorkerCreateWithoutDeviceInput!]
+  connect: [WorkerWhereUniqueInput!]
+}
+
+input WorkerCreateWithoutDeviceInput {
+  name: String
+}
+
+"""An edge in a connection."""
+type WorkerEdge {
+  """The item at the end of the edge."""
+  node: Worker!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum WorkerOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
+  name_ASC
+  name_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type WorkerPreviousValues {
+  createdAt: DateTime!
+  name: String
+  id: ID!
+  updatedAt: DateTime!
+}
+
+type WorkerSubscriptionPayload {
+  mutation: MutationType!
+  node: Worker
+  updatedFields: [String!]
+  previousValues: WorkerPreviousValues
+}
+
+input WorkerSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WorkerSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WorkerSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: WorkerWhereInput
+}
+
+input WorkerUpdateInput {
+  name: String
+  device: DeviceUpdateOneWithoutWorkersInput
+}
+
+input WorkerUpdateManyWithoutDeviceInput {
+  create: [WorkerCreateWithoutDeviceInput!]
+  connect: [WorkerWhereUniqueInput!]
+  disconnect: [WorkerWhereUniqueInput!]
+  delete: [WorkerWhereUniqueInput!]
+  update: [WorkerUpdateWithWhereUniqueWithoutDeviceInput!]
+  upsert: [WorkerUpsertWithWhereUniqueWithoutDeviceInput!]
+}
+
+input WorkerUpdateWithoutDeviceDataInput {
+  name: String
+}
+
+input WorkerUpdateWithWhereUniqueWithoutDeviceInput {
+  where: WorkerWhereUniqueInput!
+  data: WorkerUpdateWithoutDeviceDataInput!
+}
+
+input WorkerUpsertWithWhereUniqueWithoutDeviceInput {
+  where: WorkerWhereUniqueInput!
+  update: WorkerUpdateWithoutDeviceDataInput!
+  create: WorkerCreateWithoutDeviceInput!
+}
+
+input WorkerWhereInput {
+  """Logical AND on all given filters."""
+  AND: [WorkerWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [WorkerWhereInput!]
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  device: DeviceWhereInput
+}
+
+input WorkerWhereUniqueInput {
+  id: ID
+}
