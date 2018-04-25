@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/cascade/backend/dev
-# timestamp: Wed Apr 25 2018 16:46:31 GMT+0300 (EEST)
+# timestamp: Wed Apr 25 2018 17:56:14 GMT+0300 (EEST)
 
 type AggregateDevice {
   count: Int!
@@ -4473,6 +4473,7 @@ input UserWhereUniqueInput {
 type WifiLog implements Node {
   createdAt: DateTime!
   device(where: DeviceWhereInput): Device
+  ssid: String
   hostname: String
   address: String
   netmask: String
@@ -4494,6 +4495,7 @@ type WifiLogConnection {
 }
 
 input WifiLogCreateInput {
+  ssid: String
   hostname: String
   address: String
   netmask: String
@@ -4509,6 +4511,7 @@ input WifiLogCreateManyWithoutDeviceInput {
 }
 
 input WifiLogCreateWithoutDeviceInput {
+  ssid: String
   hostname: String
   address: String
   netmask: String
@@ -4529,6 +4532,8 @@ type WifiLogEdge {
 enum WifiLogOrderByInput {
   createdAt_ASC
   createdAt_DESC
+  ssid_ASC
+  ssid_DESC
   hostname_ASC
   hostname_DESC
   address_ASC
@@ -4549,6 +4554,7 @@ enum WifiLogOrderByInput {
 
 type WifiLogPreviousValues {
   createdAt: DateTime!
+  ssid: String
   hostname: String
   address: String
   netmask: String
@@ -4596,6 +4602,7 @@ input WifiLogSubscriptionWhereInput {
 }
 
 input WifiLogUpdateInput {
+  ssid: String
   hostname: String
   address: String
   netmask: String
@@ -4615,6 +4622,7 @@ input WifiLogUpdateManyWithoutDeviceInput {
 }
 
 input WifiLogUpdateWithoutDeviceDataInput {
+  ssid: String
   hostname: String
   address: String
   netmask: String
@@ -4662,6 +4670,46 @@ input WifiLogWhereInput {
 
   """All values greater than or equal the given value."""
   createdAt_gte: DateTime
+  ssid: String
+
+  """All values that are not equal to given value."""
+  ssid_not: String
+
+  """All values that are contained in given list."""
+  ssid_in: [String!]
+
+  """All values that are not contained in given list."""
+  ssid_not_in: [String!]
+
+  """All values less than the given value."""
+  ssid_lt: String
+
+  """All values less than or equal the given value."""
+  ssid_lte: String
+
+  """All values greater than the given value."""
+  ssid_gt: String
+
+  """All values greater than or equal the given value."""
+  ssid_gte: String
+
+  """All values containing the given string."""
+  ssid_contains: String
+
+  """All values not containing the given string."""
+  ssid_not_contains: String
+
+  """All values starting with the given string."""
+  ssid_starts_with: String
+
+  """All values not starting with the given string."""
+  ssid_not_starts_with: String
+
+  """All values ending with the given string."""
+  ssid_ends_with: String
+
+  """All values not ending with the given string."""
+  ssid_not_ends_with: String
   hostname: String
 
   """All values that are not equal to given value."""
