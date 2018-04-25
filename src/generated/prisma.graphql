@@ -17,8 +17,8 @@ type Device implements Node {
   name: String
   token: String
   deviceModel(where: DeviceModelWhereInput): DeviceModel
-  logEveryInSeconds: Int
-  uploadEveryInSeconds: Int
+  logEveryInSeconds: Int!
+  uploadEveryInSeconds: Int!
 }
 
 type DeviceModel implements Node {
@@ -724,8 +724,8 @@ type DevicePreviousValues {
   updatedAt: DateTime!
   name: String
   token: String
-  logEveryInSeconds: Int
-  uploadEveryInSeconds: Int
+  logEveryInSeconds: Int!
+  uploadEveryInSeconds: Int!
 }
 
 type DeviceSubscriptionPayload {

@@ -30,6 +30,8 @@ const resolvers = {
     place: forwardTo('db'),
     locations: forwardTo('db'),
     location: forwardTo('db'),
+    wifiLog: forwardTo('db'),
+    wifiLogs: forwardTo('db'),
     weather,
   },
   Mutation: {
@@ -38,6 +40,7 @@ const resolvers = {
     updateDevice: forwardTo('db'),
     createLog: forwardTo('db'),
     createScene: forwardTo('db'),
+    createWifiLog: forwardTo('db'),
   },
   AuthPayload
 }

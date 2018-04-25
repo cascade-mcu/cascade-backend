@@ -28,6 +28,7 @@ type Device {
   updatedAt: DateTime!
   place: Place @relation(name: "PlaceDevices")
   sensors: [Sensor!]! @relation(name: "DeviceSensors")
+  wifiLogs: [WifiLog!]! @relation(name: "DeviceWifiLogs")
   workers: [Worker!]! @relation(name: "DeviceWorkers")
   groups: [Group!]! @relation(name: "DeviceGroups")
   user: User @relation(name: "UserDevices")
@@ -78,6 +79,19 @@ type Sensor {
   id: ID! @unique
   updatedAt: DateTime!
   sensorType: SensorType @relation(name: "SensorSensorType")
+}
+
+type WifiLog {
+  createdAt: DateTime!
+  device: Device @relation(name: "DeviceWifiLogs")
+  hostname: String
+  address: String
+  netmask: String
+  gateway: String
+  mac: String
+  rssi: Float
+  id: ID! @unique
+  updatedAt: DateTime!
 }
 
 type Worker {
