@@ -84,6 +84,7 @@ type Sensor {
 type WifiLog {
   createdAt: DateTime!
   device: Device @relation(name: "DeviceWifiLogs")
+  ssid: String
   hostname: String
   address: String
   netmask: String
