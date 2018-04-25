@@ -10,6 +10,7 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload!
   updateDevice(data: DeviceUpdateInput!, where: DeviceWhereInput!): Device!
   createLog(data: LogCreateInput!): Log!
+  createWifiLog(data: WifiLogCreateInput!): WifiLog!
   createScene(data: SceneCreateInput!): Scene!
 }
 
